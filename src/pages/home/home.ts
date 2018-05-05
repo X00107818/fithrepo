@@ -6,7 +6,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import {storage, initializeApp} from 'firebase';
 import { Config } from 'ionic-angular/config/config';
-import { Camera, CameraOptions } from '@ionic-native/camera';
+/*import { Camera, CameraOptions } from '@ionic-native/camera';*/
 import { PopoverController } from 'ionic-angular/components/popover/popover-controller';
 import {PopoverComponent} from '../../components/popover/popover'
 
@@ -29,7 +29,7 @@ export class HomePage {
 
   }
   
-  async takePhoto(){
+  /*async takePhoto(){
     try{
     const options: CameraOptions ={
       quality:50,
@@ -48,7 +48,7 @@ export class HomePage {
   }
 catch(e){
   console.error(e);
-}}
+}}*/
 
 presentPopover(myEvent) {
   let popover = this.popCtlr.create(PopoverComponent);

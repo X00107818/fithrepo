@@ -1,14 +1,52 @@
+<!--
+  Generated template for the HomePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
 <ion-header>
+
   <ion-navbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
+    <ion-title>home</ion-title>
+   
   </ion-navbar>
+ <ion-buttons end> <button ion-button icon-only (click)="presentPopover($event)" >  <ion-icon name="person"></ion-icon> </button> </ion-buttons> 
 </ion-header>
 
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+
+
+<ion-content padding> <button ion-button color="dark"  clear (click)="logMeout()">Sign out</button>
+  
+
+    <ion-content class="card-background-page">
+
+        <ion-card>
+          <img src="../../assets/imgs/createdish.jpg"/>
+          <div class="card-title" (click)="goToCreateDish()">Create dish</div>
+          <div class="card-subtitle">Create and store new dishes, record recipes and count calories</div>
+         <div class="overlay"></div>
+      </ion-card>
+        
+      
+        <ion-card>
+          <img src="../../assets/imgs/createmenu.jpg"/>
+          <div class="card-title"(click)="goToCreateMenu()">Create menu</div>
+          <div class="card-subtitle">Create and store new menus</div>
+          <div class="overlay"></div></ion-card>
+      
+        <ion-card>
+          <img src="../../assets/imgs/dishes.jpg"/>
+          <div class="card-title"(click)="goToDishes()">Dishes</div>
+          <div class="card-subtitle">View or edit existing dishes</div>
+          <div class="overlay"></div></ion-card>
+      
+        <ion-card>
+          <img src="../../assets/imgs/menus.jpg"/>
+          <div class="card-title" (click)="goToMenus()"> Menus</div>
+          <div class="card-subtitle">View or edit existing menus</div>
+          <div class="overlay"></div></ion-card>
+       
+
+      </ion-content>
+
 </ion-content>

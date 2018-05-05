@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { AngularFireModule } from 'angularfire2';
-import { AngularFireAuthModule} from 'angularfire2/auth';
+import { AngularFireAuthModule, AngularFireAuthProvider} from 'angularfire2/auth';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireStorageModule } from 'angularfire2/storage';
 import { HttpModule } from '@angular/http';
@@ -83,7 +83,7 @@ class CameraMock extends Camera {
     DishProvider,
     ProfileProvider,
     MenuProvider,
-  
+    AngularFireAuthProvider,
     IngredientsProvider,
     ProfileProvider,
     PasswordValidator

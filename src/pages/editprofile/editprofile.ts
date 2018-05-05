@@ -30,11 +30,14 @@ export class EditprofilePage {
 
 
   
-  constructor(public navCtrl: NavController, public navParams: NavParams,public profileProvider: ProfileProvider, public actionCtrl: ActionSheetController, public platform: Platform, public alertCtrl: AlertController,public afAuth: AngularFireAuth, public afDatabase: AngularFireDatabase
+  constructor(public navCtrl: NavController, public navParams: NavParams, public plt: Platform, public profileProvider: ProfileProvider, public actionCtrl: ActionSheetController, public platform: Platform, public alertCtrl: AlertController,public afAuth: AngularFireAuth, public afDatabase: AngularFireDatabase
   ) {
     
       this.userId= this.profileProvider.userId;
-     
+      this.plt.ready().then((readySource) => {
+        console.log('Platform ready from', readySource);
+        
+      });
          
     
     }

@@ -19,7 +19,7 @@ import { AuthProvider } from '../providers/auth/auth';
 import { DishProvider } from '../providers/dish/dish';
 import { ProfileProvider} from '../providers/profile/profile';
 import { MenuProvider} from '../providers/menu/menu';
-import { InitialdbProvider } from '../providers/initialdb/initialdb';
+
 import { IngredientsProvider } from '../providers/ingredients/ingredients';
 import { HomePage } from '../pages/home/home';
 import { PasswordValidator } from '../validators/password.validator';
@@ -83,7 +83,7 @@ class CameraMock extends Camera {
     DishProvider,
     ProfileProvider,
     MenuProvider,
-    InitialdbProvider,
+  
     IngredientsProvider,
     ProfileProvider,
     PasswordValidator

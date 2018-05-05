@@ -25,7 +25,7 @@ import {PopoverComponent} from '../../components/popover/popover'
 export class HomePage {
   
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public authProvider: AuthProvider, public camera: Camera, public popCtlr: PopoverController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public authProvider: AuthProvider,  public popCtlr: PopoverController) {
 
   }
   

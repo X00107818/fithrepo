@@ -1,0 +1,71 @@
+<!--
+  Generated template for the Signup1Page page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>signup1</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding class="auth-pages">
+        <img src="assets/img/logo.jpg" class="auth-img"> 
+        <form [formGroup]="loginForm" (submit)="register()" novalidate> 
+          <ion-item> 
+          <ion-label stacked>Email</ion-label>
+           <ion-input formControlName="email" type="email" placeholder="Please type your email address" [class.invalid]="!loginForm.controls.email.valid && blur"> 
+          </ion-input>
+          </ion-item> 
+
+          <ion-item class="error-message" *ngIf="!loginForm.controls.email.valid && loginForm.controls.email.dirty"> <p>Please enter a valid email.</p> 
+          </ion-item>
+
+          <ion-item> 
+          <ion-label stacked>Password</ion-label> 
+          <ion-input formControlName="password" type="password" placeholder="Your password" [class.invalid]="!loginForm.controls.password.valid && blur">
+          </ion-input> 
+          </ion-item>
+          
+          <ion-item no-lines *ngIf="(loginForm.get('password').hasError('required') || loginForm.get('password').hasError('pattern')  ) && loginForm.get('password').touched">
+
+            <div class="error" *ngIf="loginForm.get('password').hasError('required') && loginForm.get('confirm_password').touched">
+            Password is required
+            </div>
+
+            <div class="error" *ngIf="loginForm.get('password').hasError('pattern') && loginForm.get('password').touched">
+            Password has to be combination  of <br/>upper, lower case and numbers
+            </div>
+            <ion-item class="error-message" *ngIf="!loginForm.controls.password.valid && loginForm.controls.email.dirty"> <p>Password has minimum 6 characters.</p> 
+            </ion-item>
+            
+            
+            </ion-item>
+
+          <ion-item> 
+            <ion-label stacked>Confirm Password</ion-label> 
+            <ion-input formControlName="confirm_password" type="password" placeholder="Your password" [class.invalid]="!loginForm.controls.confirm_password.valid && blur">
+            </ion-input> 
+            </ion-item>
+            
+            <ion-item no-lines *ngIf="(loginForm.get('confirm_password').hasError('equalTo') || loginForm.get('confirm_password').hasError('required') ) && loginForm.get('confirm_password').touched">
+
+              <div class="error" *ngIf="loginForm.get('confirm_password').hasError('required') && loginForm.get('confirm_password').touched">
+              Confirm password is required
+              </div>
+              <div class="error" *ngIf="loginForm.get('confirm_password').hasError('equalTo') && loginForm.get('confirm_password').touched">
+              Password Mismatch
+              </div>
+              </ion-item>
+              
+
+           <button ion-button block type="submit" [disabled]="!loginForm.valid"> Submit credentials </button>
+           </form>
+
+            <button ion-button block clear (click)="goToLogin()"> Take me to Login Page</button>
+           
+</ion-content>

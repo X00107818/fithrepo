@@ -14,10 +14,7 @@
 
 
 <ion-content padding>
-    <ion-list> <ion-list-header> List of saved dishes </ion-list-header>
-    <ion-item *ngFor="let dish of dishList | async" (click)="goTothisDish(dish.id)" > 
-    <ion-icon name="checkmark" color="favorite" item-left></ion-icon>
-     <h2>{{dish.name}}</h2>  </ion-item> </ion-list>
+  
 
 
 </ion-content>

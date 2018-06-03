@@ -15,6 +15,42 @@
 
 <ion-content padding>
   
+<ion-list> <ion-list-header> Starter dishes </ion-list-header>
+       <ion-item *ngFor="let dish of dishList | async" [class.hide]="dish.dishtype=='main'|| dish.dishtype=='desert'">
+       <ion-icon name="more" color="danger" item-left></ion-icon> 
+       <ion-list>
+      
+       <ion-item (click)="moreDishOptions(dish.id,dish.dishname,dish.recipe)"> {{dish.dishname}}</ion-item>
+
+        <ion-item>{{dish.recipe}}</ion-item>
+
+        <ion-item >Dish ingredients:{{dish.ingredients}}</ion-item>
+        
+        <ion-item  ng-repeat="x in dish.dishcalories">
+          Dish calories: {{dish.dishcalories}}
+        <!-- <br/> Dish carbohydrates: {{dish.dishcalories[1]}} grams 
+         <br/> Dish fat: {{dish.dishcalories[2]}} grams 
+         <br/>  Dish saturatet fat: {{dish.dishcalories[3]}} grams 
+         <br/> Dish proteins: {{dish.dishcalories[4]}}grams
+         <br/> Dish salt:{{dish.dishcalories[5]}} grams
+         <br/> Dish sugar: {{dish.dishcalories[6]}} grams--></ion-item>
+        
+         
+         <ion-item>Dish contains these alergens: {{dish.dishalergens}} </ion-item>
+         
+       </ion-list>
+
+       </ion-item>
+      
+</ion-list>
+<!--
+<ion-list> <ion-list-header> Main dishes </ion-list-header>
+       <ion-item *ngFor="let dish of dishList | async" (click)="moredishOptions(dish.id)" [class.hide]="(dish.dishtype == "starter")">
+       <ion-icon name="more" color="danger" item-left></ion-icon> 
+       <h2> {{dish.dishname}}</h2> 
+       </ion-item>   
+</ion-list>-->
 
 
 </ion-content>
+ 

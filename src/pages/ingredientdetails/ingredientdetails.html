@@ -1,0 +1,37 @@
+<!--
+  Generated template for the IngredientdetailsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>ingredientdetails</ion-title>
+  </ion-navbar>
+  <ion-buttons >
+    
+  <button ion-button  icon-only (click)="addIngredient()"> <ion-icon name="add"></ion-icon> Add more ingredients</button> 
+             
+  </ion-buttons>
+
+</ion-header>
+
+
+<ion-content padding>
+    <form [formGroup]="calculate" (ngSubmit)="saveForm(servingsize)">
+        <h6>Please type how many {{ingredientInfo.measureUnit}} of {{ingredientInfo.name}} you wish to add </h6> 
+        <ion-item>
+        <ion-input type="number" formControlName="servingsize" placeholder=""></ion-input>
+        </ion-item> 
+ 
+        <button clear ion-button type="submit" [disabled]="!calculate.valid">Submit</button>
+       
+      </form>
+  
+ <ion-buttons end>
+      
+               <button clear ion-button icon-only (click)="addIngredient()">Cancel </button>
+  </ion-buttons>
+
+</ion-content>

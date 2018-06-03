@@ -12,6 +12,31 @@
 
 </ion-header>
 <ion-content padding>
+  
+   
+
+
+  
+     <ion-list *ngFor="let menu of menuList" (click)="moreMenuOptions(menu.id, menu.date, menu.name)"> 
+          <ion-item > <ion-icon color="secondary" name="information-circle" item-left> </ion-icon>Menu name: {{ menu.name}}  <br/>
+             valid from: {{menu.date}}  </ion-item> 
+              <h6>starters:</h6>
+               <ion-item *ngFor="let starter of menu.starters"> 
+                  dishname:  {{starter.dishname}}
+                   <br/> alergens: {{starter.alergens}}
+                </ion-item>
+                <h6>mains:</h6>
+              <ion-item *ngFor="let main of menu.mains"> 
+                      dishname: {{main.dishname}}
+                    <br/>  alergens: {{main.alergens}}
+              </ion-item>
+              <h6>desserts:</h6>
+                <ion-item *ngFor="let dessert of menu.deserts"> 
+                    dishname: {{dessert.dishname}} <br/>
+                    alergens: {{dessert.alergens}} 
+                </ion-item>
+      
+        </ion-list>
     
    
 

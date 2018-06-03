@@ -25,8 +25,8 @@ export class EditprofilePage {
   
    userId:string ;
 
-   public userLoaded={};
-   public user= this.userLoaded;
+   
+   public user= {};
 
 
   
@@ -99,12 +99,12 @@ export class EditprofilePage {
    
   ionViewDidLoad() {
      console.log(this.userId);
-     const userProfile:firebase.database.Reference = firebase.database().ref(`/userProfile/${this.userId}`);
+     const userProfile = firebase.database().ref(`/userProfile/${this.userId}`);
 
      userProfile.on('value', userSnapshot => {
    
-      this.userLoaded = userSnapshot.val();
-     console.log(this.userLoaded);
+      this.user = userSnapshot.val();
+     console.log(this.user);
       
     }); 
   

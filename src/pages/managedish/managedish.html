@@ -14,8 +14,23 @@
 
 
 <ion-content padding>
-    <div class="test"><h2>Hello!</h2></div>
-     <ion-searchbar [(ngModel)]="searchTerm" [formControl]="searchControl"></ion-searchbar>
+    <ion-item>
+  
+    
+        <ion-searchbar (ionInput)="getItems($event)" placeholder="type ingredient" ></ion-searchbar>
+        <ion-list inset>
+        <button  clear ion-item *ngFor="let ingredient of ingredientList" (click)="moreIngredientOptions(ingredient.name,ingredient.calories,ingredient.proteins,ingredient.carbohydrates,ingredient.fat,ingredient.saturatedF,ingredient.sugar,ingredient.salt,ingredient.measureUnit,ingredient.alergens,ingredient.servingsize)" >
+        <h2> {{ ingredient.name }} </h2> <ion-icon name="add" item-left></ion-icon> </button>
+  
+        
+        </ion-list>
+</ion-item>
+
+
+    <ion-list *ngFor="let ingredient of ingredientlist" (click)="showOption(id, ingredient)"> 
+    <ion-item > <ion-icon color="secondary" name="information-circle" item-left> </ion-icon> {{ ingredient}} </ion-item> 
+    </ion-list>
  
-       
+    <button ion-button block (click)="updateIngredients()"> Update menu </button>
+    
 </ion-content>

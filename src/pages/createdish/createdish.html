@@ -14,7 +14,93 @@
 
 
 <ion-content padding>
+   <ion-item>
+  
+    
+            <ion-searchbar (ionInput)="getItems($event)" placeholder="type ingredient" ></ion-searchbar>
+            <ion-list inset>
+            <button  clear ion-item *ngFor="let ingredient of ingredientList" (click)="ingredientSelected(ingredient)" >
+            <h2> {{ ingredient.name }} </h2> </button>
+      
+            
+            </ion-list>
+    </ion-item>
+    
 
+    <form [formGroup]="newDishForm" (submit)="createDish()" novalidate>
+        <ion-item> 
+        <ion-label stacked>Dish Name</ion-label> 
+        <ion-input formControlName="dname" type="text" placeholder="How do you identify this dish?" [class.invalid]="!newDishForm.controls.dname.valid && blur">
+       </ion-input> 
+       </ion-item> 
+    
+       <ion-list>
+        <ion-item>
+          <ion-label>Dish type</ion-label>
+         
+          <ion-select  formControlName="dtype" type="text" placeholder="select" [class.invalid]="!newDishForm.controls.dtype.valid && blur">
+            <ion-option value="starter">starter</ion-option>
+            <ion-option value="main">main</ion-option>
+            <ion-option value="desert">desert</ion-option>
+            
+          </ion-select>
+        </ion-item>
+      </ion-list>
+
+      <ion-item> 
+          <ion-label stacked>Dish description</ion-label> 
+          <ion-input formControlName="description" type="text" placeholder="You can type description for dish" [class.invalid]="!newDishForm.controls.recipe.valid && blur">
+         </ion-input> 
+      </ion-item>  
+    
+            <ion-item> 
+                <ion-label stacked>Recipe</ion-label> 
+                <ion-input formControlName="recipe" type="text" placeholder="You can type full recipe for dish" [class.invalid]="!newDishForm.controls.recipe.valid && blur">
+               </ion-input> 
+            </ion-item>  
+       </form>
+   
+      
+            
+  
+       
+       
+      <h6 [class.hide] ="s_ingredientList.length>0">  No ingredients added . Please use searchbox above to select ingredient.</h6> 
+     
+     
+      <h6 [class.hide] ="s_ingredientList.length==0">  Added ingredients:</h6>
+  
+               
+    <ion-list>
+    <ion-item-sliding *ngFor="let singredient of s_ingredientList" detail-push >
+          <ion-item>  {{singredient}}  </ion-item>
+          <ion-item-options>
+                        <button ion-button icon-only (click)="editS_ingredient(singredient)" light>
+                            <ion-icon name="paper"></ion-icon>
+                        </button>
+                        <button ion-button icon-only (click)="deleteS_ingredient(singredient)" danger>
+                            <ion-icon name="trash"></ion-icon>
+                        </button>
+           </ion-item-options>
+    </ion-item-sliding>
+    </ion-list>
+    
+    <h6 [class.hide]="alergenList.length>0">There are no alergens in the dish</h6>
+    <h6  [class.hide]="alergenList.length==0">These are the alergens in the dish:</h6>
+    
+    <ion-list>
+      <ion-item *ngFor="let alergen of alergenList " > 
+      <ion-item><h2>{{alergen}}</h2> </ion-item>
+    
+      </ion-item> 
+    </ion-list>
+
+    <ion-item>
+    <h6>Dish calories: {{dishcal}} kj<br/> Dish carbohydrates: {{dishcarbs}} grams <br/> Dish fat: {{dishfat}} grams<br/> Dish proteins{{dishproteins}}grams<br/> Dish saturatet fat: {{dishsatf}} grams<br/> Dish sugar: {{dishsugar}} grams<br/> Dish salt:{{dishsalt}} grams </h6> 
+    </ion-item> 
+      
+      
+     <button  ion-button block type="submit" (click)="createDish()">Create dish</button>  
     
 
    

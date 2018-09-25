@@ -1,10 +1,15 @@
 <!-- Generated template for the PopoverComponent component -->
 
 <ion-list>
-    <ion-list-header>Ionic</ion-list-header>
-    <button ion-item (click)="goToProfile()">View profile</button>
-    <button ion-item (click)="goToCreateProfile()">Create profile</button>
+    <ion-list-header>ACCOUNT</ion-list-header>
+
+    <button ion-button clear (click)="logMeout()"  detail-none>Sign out</button>  
+    <button ion-item (click)="goToCreateProfile()"  detail-none>Create profile</button>
+    <button ion-item (click)="goToProfile()"  detail-none>View profile</button>
+    <button ion-item (click)="goToAddIngredient()"  detail-none>Add ingredient</button>
+  
+
     
-    <button ion-item (click)="close()">close</button>
+    <button ion-item (click)="close()" detail-none >close <ion-icon name="close" item-end></ion-icon></button>
   </ion-list>
 

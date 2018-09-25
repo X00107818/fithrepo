@@ -1,3 +1,5 @@
 page-ingredientdetails {
-
+ion-content{background: url(../assets/imgs/scale.png) center center; background-size:cover;}
+.emphasize{color:color($colors,pastel); text-transform: uppercase;}
+.item.error-message{background-color:color($colors,pastel);}
 }

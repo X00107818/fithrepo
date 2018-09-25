@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ViewController } from 'ionic-angular/navigation/view-controller';
 import { NavController } from 'ionic-angular/navigation/nav-controller';
+import { AuthProvider } from '../../providers/auth/auth';
 
 /**
  * Generated class for the PopoverComponent component.
@@ -14,7 +15,7 @@ import { NavController } from 'ionic-angular/navigation/nav-controller';
 })
 export class PopoverComponent {
 
-  constructor(public viewCtrl: ViewController,public navCtrl: NavController) {
+  constructor(public viewCtrl: ViewController,public navCtrl: NavController,public authProvider: AuthProvider) {
     console.log('Hello PopoverComponent Component');
    
   }
@@ -29,5 +30,17 @@ export class PopoverComponent {
   goToCreateProfile(){
     this.navCtrl.push('ProfilePage');
   }
+  
+  logMeout(){
+    this.authProvider.logoutUser();
+    this.navCtrl.push('LoginPage');
+}
+  
+
+goToAddIngredient(){
+    this.navCtrl.push('AddIngredientPage');
+}
+
+
 
 }

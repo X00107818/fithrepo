@@ -3,9 +3,13 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DishProvider } from '../../providers/dish/dish';
 
-import firebase from 'firebase/app';
+import  firebase from 'firebase/app';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { PopoverController } from 'ionic-angular/components/popover/popover-controller';
+import {PopoverComponent} from '../../components/popover/popover';
+import {HomePage} from '../home/home';
+import { AlertController } from 'ionic-angular/components/alert/alert-controller';
 
 /**
  * Generated class for the CreatedishPage page.
@@ -20,35 +24,40 @@ import { AngularFireAuth } from 'angularfire2/auth';
   templateUrl: 'createdish.html',
 })
 export class CreatedishPage {
+  // variables to store  loaded ingredients from db
  
   public newDishForm: FormGroup;
   public ingredientList:Array<any>;
   public loadedIngredientList:Array<any>;
-  public s_ingredientList= this.dish.s_ingredientList;   
+
+  //link variables from global variables in dish.ts file to be displayed in html
+  public s_ingredientList = this.dish.s_ingredientList
   public alergenList=this.dish.alergenList;
   public ingredientCalList=this.dish.s_ingredientCalList;
- 
-
-  public dishcal= this.dish.dishcalories.toFixed(2);
-  public dishproteins=this.dish.dishproteins.toFixed(2);
-  public dishfat=this.dish.dishfat.toFixed(2);
-  public dishsatf=this.dish.dishsaturatedF.toFixed(2);
-  public dishsalt=this.dish.dishsalt.toFixed(2);
-  public dishsugar=this.dish.dishsugar.toFixed(2);
-  public dishcarbs=this.dish.dishcarbohydrates.toFixed(2);
+  public totalCalories=this.dish.dishcalories;
+  
   public ingredientRef:firebase.database.Reference;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,formBuilder: FormBuilder, public dish: DishProvider,public afdb:AngularFireDatabase, public afAuth: AngularFireAuth,)
-  {
+
+  constructor(public navCtrl: NavController, public navParams: NavParams,public formBuilder: FormBuilder, public dish: DishProvider,public afdb:AngularFireDatabase, public afAuth: AngularFireAuth,public popCtrl:PopoverController, public alertCtrl: AlertController)
+  { 
+    // link user inputs to variables and validate
     this.newDishForm = formBuilder.group
     ({ 
-    dname: ['', Validators.required],
+    dname:  [ '', Validators.compose([Validators.minLength(5), Validators.required])],
     dtype: ['', Validators.required], 
-    description: ['', Validators.required], 
-    recipe: ['', Validators.required]
+    description:[ '', Validators.compose([Validators.minLength(20), Validators.required])],
+    recipe:[ '', Validators.compose([Validators.minLength(30), Validators.required])]
   
 
-});
+    });
+// CALLING TEST METHODS
+
+    this.testCreateDish(this.inputsArray);
+    this.testAlergens(this.alergensPushed1,this.alergenOtputs1);
+    this.testAlergens(this.alergensPushed2,this.alergenOtputs2);
+    this.testAlergens(this.alergensPushed3,this.alergenOutputs3);
+//loading ingredients from DB
 
 this.ingredientRef = firebase.database().ref('/Ingredients');
 this.ingredientRef.on('value', ingredientList => {
@@ -64,6 +73,20 @@ this.ingredientRef.on('value', ingredientList => {
 
 
    }
+
+   goHome()
+   {
+     this.navCtrl.setRoot(HomePage) ;
+    
+    }
+
+
+   presentPopover(myEvent) {
+    let popover = this.popCtrl.create(PopoverComponent);
+    popover.present({
+      ev: PopoverComponent
+    });
+  }
 
    initializeItems(): void {
     this.ingredientList = this.loadedIngredientList;
@@ -91,80 +114,219 @@ this.ingredientRef.on('value', ingredientList => {
       }
     });
   
-    console.log(q, this.ingredientList.length);
+    //console.log(q, this.ingredientList.length);
   
   }
   
-  ingredientSelected(singredient) {
-   this.navCtrl.push('IngredientdetailsPage',singredient);
-  }
+  // on click event, ingredient selected, redirects new page
+  ingredientSelected(singredient) 
+    {
+        this.navCtrl.push('IngredientdetailsPage',singredient);
+    }
   
-  
-  editS_ingredient(singredient){
-                  
-                          
-                            }
-  
-  deleteS_ingredient(singredient){
-   
-            let index = this.dish.s_ingredientList.indexOf(singredient);
-     
-            if(index > -1){
-               
-               console.log("dishcalories before" +this.dish.dishcalories);
-               console.log(this.dish.s_ingredientCalList[index][0]);
-                this.dish.dishcalories-= this.dish.s_ingredientCalList[index][0];
-                this.dishcal=this.dish.dishcalories.toFixed(2);
-                
-                this.dish.dishproteins-= this.dish.s_ingredientCalList[index][1];
-                this.dishproteins=this.dish.dishproteins.toFixed(2);
-               
-                this.dish.dishcarbohydrates-= this.dish.s_ingredientCalList[index][2];
-                this.dishcarbs=this.dish.dishcarbohydrates.toFixed(2);
-               
-                this.dish.dishfat-= this.dish.s_ingredientCalList[index][3];
-                this.dishfat=this.dish.dishfat.toFixed(2);
-              
-                this.dish.dishsaturatedF-= this.dish.s_ingredientCalList[index][4];
-                this.dishsatf=this.dish.dishsaturatedF.toFixed(2);
-               
-                
-                this.dish.dishsugar-= this.dish.s_ingredientCalList[index][5];
-                this.dishsugar=this.dish.dishsugar.toFixed(2);
-                
-                this.dish.dishsalt-= this.dish.s_ingredientCalList[index][6];
-                this.dishsalt=this.dish.dishsalt.toFixed(2);
+  //PROGRAM DELETE INGREDIENT FROM LIST OF SELECTED
 
-                console.log("dishcalories after decrement" +this.dish.dishcalories);
-                
-                let alergenValue=this.dish.alergenFullList[index];
-                console.log(this.dish.alergenFullList);
-                console.log(alergenValue);
-                this.dish.alergenFullList.splice(index, 1);
-                console.log(this.dish.alergenFullList);
+  // function to find the position of selected ingredient in array
+  getIndex(selectedIngredient)
+    { 
+      let index = this.dish.s_ingredientList.indexOf(selectedIngredient);
+      return index;
+    }
+  
+  //function to decrement total calories
 
-                if((alergenValue!="")&&(this.dish.alergenFullList.indexOf(alergenValue)<0))
-                {let deletealergen=this.dish.alergenList.indexOf(alergenValue);
-                this.dish.alergenList.splice(deletealergen, 1);
-                console.log("Deleted non existing alergent"+this.dish.alergenList);
+  decrementCalories(index){   
+
+    
+    console.log("dishcalories before" +this.dish.dishcalories);
+    console.log(this.dish.s_ingredientCalList[index][0]);
+    var dishCalories = this.dish.dishcalories;
+     for (var i=0; i<dishCalories.length; i++) 
+     { 
+       
+      dishCalories[i]-= this.dish.s_ingredientCalList[index][i].toFixed(2);
+
+     }
+    return dishCalories;
+
+     }
+  // function to check if any alergen value needs to be deleted from dish info
+
+  checkAlergens(index)
+     {
+                var alergen=this.dish.alergenOccurence[index];
+               
+                this.dish.alergenOccurence.splice(index, 1);// delete alergen from arrays with all values 
+               
+                //check if alergen is still present in array after deletion
+                if((alergen!="")&&(this.dish.alergenOccurence.indexOf(alergen)<0))
+                {
+                // if not present any more  delete alergen from second array with non repetitive values
+                let deletedValue=this.dish.alergenList.indexOf(alergen);
+                this.dish.alergenList.splice(deletedValue, 1);
+                console.log("Non existing alergen just has been deleted" +this.dish.alergenList);
                 }
+      } 
 
-
-           
-                this.dish.s_ingredientList.splice(index, 1);
-              }}
   
-      createDish(){
-        console.log("dishname is:"+this.newDishForm.value.dname+ "dish type is:"+this.newDishForm.value.dtype+ "dish recipe is:"+this.newDishForm.value.recipe+"incremented proteins:"+this.dishproteins);
-        this.dish.createDish(this.newDishForm.value.dname,this.newDishForm.value.dtype,this.newDishForm.value.description,this.newDishForm.value.recipe,[this.dishcal,this.dishcarbs,this.dishfat,this.dishsatf,this.dishproteins,this.dishsalt,this.dishsugar],this.dish.s_ingredientCalList, this.dish.alergenList,this.dish.alergenFullList,this.dish.s_ingredientList);
+  delete_S_Ingredient(selectedIngredient)
+      {
+
+           var index = this.getIndex(selectedIngredient);
+           this.decrementCalories(index);
+           this.checkAlergens(index);
+        
+           this.dish.s_ingredientList.splice(index, 1);
+
+       }
+  
+  createDish()
+
+      { console.log("lenght of the array is "+this.dish.s_ingredientCalList.length); 
+      if(this.dish.s_ingredientList.length<2)
+       
+            { 
+              this.presentAlert();
+
+            }
+        else
+            {
+              if(this.dish.alergenList.length< 1)	
+                         { this.dish.alergenList.push("no aleregens");}
+                         
+            
+            console.log("dishname is:"+this.newDishForm.value.dname+ "dish type is:"+this.newDishForm.value.dtype+ "dish recipe is:"+this.newDishForm.value.recipe+"dish description:"+this.newDishForm.value.description+"dish calories"+this.dish.dishcalories+"calories per ingredient: "+this.dish.s_ingredientCalList+"alergens in dish : "+this.dish.alergenList+ "occurence of aleregens: "+this.dish.alergenOccurence+"ingredients in this dish: "+this.dish.s_ingredientList);
+            this.dish.createDish(this.newDishForm.value.dname,this.newDishForm.value.dtype,this.newDishForm.value.description,this.newDishForm.value.recipe,this.dish.dishcalories,this.dish.s_ingredientCalList, this.dish.alergenList,this.dish.alergenOccurence,this.dish.s_ingredientList);
+           
+            
+            
+            }
       }
   
+
+    
+
+      presentAlert() {
+        let alert = this.alertCtrl.create({
+          title: 'There is less then two ingredients in the dish , please add more ',
+      
+          buttons: ['Dismiss']
+        });
+        alert.present();
+      }
+     //TEST FOR CREATE DISH DEALING WITH EMPTY OR LESS THEN TWO ITEM ARRAYS
+
+     //predefined inputs and expected ouputs for ingredients test
+      arrInput1=["asparagus","olive oil"]; 
+      expectedOutput1=this.arrInput1; 
+      arrInput2=["onion","celery","carrot","garlic",
+      "cloves","mince beef","tomatoes","lean","tomato purée",
+      "vegetable bouillon","balsamic vinegar","thyme leaves","lasagne sheets"];
+      expectedOutput2= this.arrInput2;
+      emptyArray: any[]=[];
+      oneItemArray= ["almonds"];
+      expectedOutput3= "error messadge: less then 2 ingredients"; 
+      
+      //predefined inputs and expected ouputs for alergens test
+      alergensPushed1 =["","","gluten","dairy","gluten",""];
+      alergenOtputs1=["gluten","dairy"];
+      alergensPushed2 =["","","","",""];
+      alergenOtputs2=[];
+      alergensPushed3=["","","gluten"];
+      alergenOutputs3=["gluten"];
      
+     
+      
+
+      
+    
+     inputsArray = [this.arrInput1,this.arrInput2,this.emptyArray,this.oneItemArray];
+   
+     
+     expectedOuputsArray = [this.expectedOutput1,this.expectedOutput2,this.expectedOutput3,this.expectedOutput3];
+    
+    
+   
+     //function passing array of predifined input
+     testCreateDish(inputsArray)
+     { 
+        console.log(inputsArray ); 
+       //array to push the outputs
+       var expectedOuputs: any[]=[];
+
+       //looping through the array and generate outputs 
+       console.log(inputsArray.length);
+       for (var i=0; i<inputsArray.length; i++)
+       {
+           // checking the length of each array item
+            if((inputsArray[i].length<2)&&(inputsArray[i].key!="emptyAlergens"))
+            {  
+
+              expectedOuputs.push("error messadge: less then 2 ingredients");
+                          
+                
+            }
+            else
+            {
+              expectedOuputs.push(inputsArray[i]);
+            }
+           
+        }
+       //compare outputs generated by function with predifined expected outputs
+       console.log(JSON.stringify(this.expectedOuputsArray));
+       console.log(JSON.stringify(expectedOuputs));
+       if(JSON.stringify(this.expectedOuputsArray) == JSON.stringify(expectedOuputs))
+
+            {console.log("TEST PASSED");}
+          
+            else
+            
+            {console.log("TEST FAILED");}
+
+
+      }
+
+
+      testAlergens(alergen, output)
+      {
+       
+      
+        
+       var alergens =[];
+          for(var i=0;i<alergen.length;i++)	
+           {  
+              
+              if((alergens.indexOf(alergen[i])<0)&&(alergen[i]!==""))//Check for for repetitive values and empty strings 
+              {
+                alergens.push(alergen[i]);//push to array  only non repetitive and non empty alergens 
+                
+              }
+             
+                
+           }
+
+           if (JSON.stringify(alergens)==JSON.stringify(output))
+         
+            {
+              console.log("TEST PASSED");
+            }
+            else
+            {
+              console.log("TEST FAILED");
+            }
+           
+       
+        
+      }
+
+    
+    
+
   
   
   
 
-  ionViewDidLoad() {
+   ionViewDidLoad() {
     console.log('ionViewDidLoad CreatedishPage');
   }
 

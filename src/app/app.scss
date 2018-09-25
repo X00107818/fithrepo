@@ -15,4 +15,63 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 @import "../../node_modules/ionic2-auto-complete/auto-complete";
+@import url("https://fonts.googleapis.com/css?family=Pinyon+Script");
+@import url("https://fonts.googleapis.com/css?family=Tenor+Sans");
+
+@font-face{
+font-family: 'Pinyon';
+src:url(../assets/fonts/pinyon.woff2);
+font-family: 'Slabo 27px';
+src:url(../assets/fonts/slabo.woff2);
+
+}
+*{padding:0;margin:0;}
+ion-toolbar.toolbar.toolbar-md,ion-toolbar.toolbar.toolbar-ios{display: none !important;}
+.img{margin-bottom:20px;}
+
+.form-pages { form { margin-bottom: 20px; button { margin: 15px 0; } }
+p { font-size: 0.8em; color: #d2d2d2; } ion-label { margin-left: 5px; }
+ ion-input { margin-bottom:10px } .invalid { border-bottom: 1px solid color($colors,danger); } 
+ .error-message { min-height: 2.2rem; p { font-size: 60%; } 
+ .item-inner { border-bottom: 0 !important; } } }
+
+
+
+h1#logo{float:left; 
+    padding-left:5px;
+  font-size:1em;
+cursor:pointer;}
+
+#chef{
+    font-size:1.8em;
+    color: color($colors,light); 
+    stroke-width:6px; stroke-linejoin: round;}
+   
+ #menu {
+  font-size:1.5em;
+  color:color($colors,primary);
+  }
+
+ion-content{
+    letter-spacing: 0.1em;
+    }
+
+ h1{font:'Arial' !important;}
+
+ button.button-ios{text-transform: uppercase; }
+ .item{width:100%;background-color: rgba(0,0,0,.5); margin-bottom:5px; border:none !important;}
+ .item.error-message{background-color:transparent;}
+ .item.error-message p{color:#dc3545 !important; }
+ .item-inner { border:none !important; }   
+
+ ion-buttons{
+  position:absolute;
+  right:10px;
+  top:20px;
+}
+
+         
+       
+ h2{font-family: 'Slabo 27px', serif;}
+
 ion-list { margin-bottom: 64px !important; }

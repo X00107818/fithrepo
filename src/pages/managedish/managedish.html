@@ -6,31 +6,34 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>managedish</ion-title>
-  </ion-navbar>
-
-</ion-header>
+    <ion-navbar hideBackButton  color="nav">
+        <h1 id="logo" (click)="goHome()"> 
+        <span id="chef" color="light">chef's</span><span id="menu" color="primary">menu</span></h1>
+  
+     
+      <ion-buttons end> <button ion-button icon-only (click)="presentPopover($event)" > 
+      <ion-icon name="person"></ion-icon> </button> </ion-buttons>
+  
+      <ion-searchbar (ionInput)="getItems($event)" placeholder="filter ingredients" ></ion-searchbar>
+              
+              <button  clear ion-item *ngFor="let ingredient of ingredientList" (click)="moreIngredientOptions(ingredient.name,ingredient.calories,ingredient.proteins,ingredient.carbohydrates,ingredient.fat,ingredient.saturatedF,ingredient.sugar,ingredient.salt,ingredient.measureUnit,ingredient.alergens,ingredient.servingsize)" >
+              <h2> {{ ingredient.name }} </h2> </button>
+      </ion-navbar>
+  
+    
+  
+  </ion-header>
 
 
 <ion-content padding>
-    <ion-item>
   
-    
-        <ion-searchbar (ionInput)="getItems($event)" placeholder="type ingredient" ></ion-searchbar>
-        <ion-list inset>
-        <button  clear ion-item *ngFor="let ingredient of ingredientList" (click)="moreIngredientOptions(ingredient.name,ingredient.calories,ingredient.proteins,ingredient.carbohydrates,ingredient.fat,ingredient.saturatedF,ingredient.sugar,ingredient.salt,ingredient.measureUnit,ingredient.alergens,ingredient.servingsize)" >
-        <h2> {{ ingredient.name }} </h2> <ion-icon name="add" item-left></ion-icon> </button>
-  
-        
-        </ion-list>
-</ion-item>
+    <br/>
 
-
-    <ion-list *ngFor="let ingredient of ingredientlist" (click)="showOption(id, ingredient)"> 
-    <ion-item > <ion-icon color="secondary" name="information-circle" item-left> </ion-icon> {{ ingredient}} </ion-item> 
+    <ion-list padding > 
+    <ion-item *ngFor="let ingredient of ingredientlist" (click)="showOption(id, ingredient)"> 
+      <ion-icon color="secondary" name="trash" item-left> </ion-icon> {{ ingredient}} </ion-item> 
     </ion-list>
  
-    <button ion-button block (click)="updateIngredients()"> Update menu </button>
+    <button ion-button block (click)="updateIngredients()"> Update  </button>
     
 </ion-content>

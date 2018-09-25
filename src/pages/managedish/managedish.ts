@@ -6,6 +6,9 @@ import 'rxjs/add/operator/debounceTime';
 import { FormControl } from '@angular/forms';
 import {DishProvider} from '../../providers/dish/dish';  
 import firebase from 'firebase/app';
+import {PopoverComponent} from '../../components/popover/popover';
+import { PopoverController } from 'ionic-angular/components/popover/popover-controller';  
+import { HomePage } from '../home/home';
 /**
  * Generated class for the ManagedishPage page.
  *
@@ -36,10 +39,25 @@ export class ManagedishPage {
   public dishingredientRef:firebase.database.Reference;
 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public platform: Platform, public dishProvider: DishProvider, public alertCtrl: AlertController, public actionCtrl: ActionSheetController) {
+
+
+  constructor(public navCtrl: NavController, public navParams: NavParams,public platform: Platform, public dishProvider: DishProvider, public alertCtrl: AlertController, public actionCtrl: ActionSheetController,public popCtrl: PopoverController) {
     
      
   }
+
+  presentPopover(myEvent) {
+    let popover = this.popCtrl.create(PopoverComponent);
+    popover.present({
+      ev: PopoverComponent
+    });
+  }
+
+  goHome()
+  {
+    this.navCtrl.push(HomePage) ;
+   
+   }
 
  
   ionViewDidEnter() { this.dishId = this.navParams.get('dishId'); this.dishProvider.getDishIngredients(this.dishId).valueChanges().subscribe(ingredients=> { this.ingredientlist = ingredients; }); 
@@ -187,7 +205,7 @@ this.ingredientRef.on('value', ingredientList => {
  
  
      this.dishProvider.dishcalories+= ingredientCal;
-     this.dishProvider.dishproteins+= ingredientProteins;
+    /* this.dishProvider.dishproteins+= ingredientProteins;
      this.dishProvider.dishcarbohydrates+=ingredientCarbs;
      this.dishProvider.dishfat+=ingredientFat;
      this.dishProvider.dishsaturatedF+=ingredientSaturatedF;

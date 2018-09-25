@@ -6,50 +6,160 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>dishes</ion-title>
-  </ion-navbar>
+  <ion-navbar hideBackButton  color="nav">
+    <h1 id="logo" (click)="goHome()"> 
+    <span id="chef" color="light">chef's</span><span id="menu" color="primary">menu</span><br/><em>Dishes</em></h1>
 
+ 
+  <ion-buttons end> <button ion-button icon-only (click)="presentPopover($event)" >  <ion-icon name="person"></ion-icon> </button> </ion-buttons>
+</ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
-  
-<ion-list> <ion-list-header> Starter dishes </ion-list-header>
-       <ion-item *ngFor="let dish of dishList | async" [class.hide]="dish.dishtype=='main'|| dish.dishtype=='desert'">
-       <ion-icon name="more" color="danger" item-left></ion-icon> 
-       <ion-list>
+
+
+
+
+
+<!--multlevel list showing dishes-->   
+
+<!--starters--> 
+<ion-list><ion-list-header  > Starter dishes </ion-list-header>
+    <ion-item  *ngFor="let dish of dishList" text-wrap (click)="toggleLevel1('idx'+i)" [ngClass]="{active: isLevel1Shown('idx'+i)}" [class.hide]="dish.dishtype=='main'|| dish.dishtype=='desert'">
+     <h4>{{dish.dishname}}
+      <ion-icon color="success" item-right [name]="isLevel1Shown('idx'+i) ? 'arrow-dropdown' : 'arrow-dropright'"></ion-icon></h4> 
+     
+        <ion-list *ngIf="isLevel1Shown('idx'+i)">
+             <ion-item>{{dish.recipe}}</ion-item>
+             <ion-item  text-wrap (click)="toggleLevel2('idx'+i+'idx'+i2)" [ngClass]="{active: isLevel2Shown('idx'+i+'idx'+i2)}">
+               <h4> calories:
+               <ion-icon color="success" item-right [name]="isLevel2Shown('idx'+i+'idx'+i2) ? 'arrow-dropdown' : 'arrow-dropright'"></ion-icon></h4>
+                <ion-list *ngIf="isLevel2Shown('idx'+i+'idx'+i2)">
+               
+              
+                    
+                   <ion-item >
+                      <h4>energy value:</h4>  
+                      {{dish.dishcalories[0].toFixed(2)}} kj
+                      <h4>proteins:</h4> 
+                      {{dish.dishcalories[1].toFixed(2)}} g
+                      <h4>carbohydrates:</h4> 
+                      {{dish.dishcalories[2].toFixed(2)}} g
+                      <h4>fats:</h4> 
+                      {{dish.dishcalories[3].toFixed(2)}} g
+                      <h4>from that saturated:</h4>
+                      {{dish.dishcalories[4].toFixed(2)}} g
+                      <h4>sugar:</h4> 
+                      {{dish.dishcalories[5].toFixed(2)}} g
+                      <h4>saltr:</h4> 
+                      {{dish.dishcalories[6].toFixed(2)}} g
+                    
+                    </ion-item>
+                   
+                 </ion-list>
+               </ion-item> 
+               <ion-item>
+               <h4>{{dish.dishalergens}}</h4>
+              </ion-item> 
+              <p id="editLink" (click)="moreDishOptions(dish.id,dish.dishname,dish.recipe)">Click to edit</p>
+           </ion-list>
+          
+    </ion-item>
+  </ion-list> 
+
+  <!--mains-->
+
+  <ion-list><ion-list-header  > Main dishes </ion-list-header>
+    <ion-item  *ngFor="let dish of dishList" text-wrap (click)="toggleLevel1('idx'+i)" [ngClass]="{active: isLevel1Shown('idx'+i)}" [class.hide]="dish.dishtype=='starter'|| dish.dishtype=='desert'">
+     <h4>{{dish.dishname}}
+      <ion-icon color="success" item-right [name]="isLevel1Shown('idx'+i) ? 'arrow-dropdown' : 'arrow-dropright'"></ion-icon></h4> 
+     
+        <ion-list *ngIf="isLevel1Shown('idx'+i)">
+            <ion-item>{{dish.recipe}}</ion-item>
+             <ion-item  text-wrap (click)="toggleLevel2('idx'+i+'idx'+i2)" [ngClass]="{active: isLevel2Shown('idx'+i+'idx'+i2)}">
+               <h4> calories:
+               <ion-icon color="success" item-right [name]="isLevel2Shown('idx'+i+'idx'+i2) ? 'arrow-dropdown' : 'arrow-dropright'"></ion-icon></h4>
+                <ion-list *ngIf="isLevel2Shown('idx'+i+'idx'+i2)">
+               
+              
+                    
+                   <ion-item >
+                      <h4>energy value:</h4>  
+                      {{dish.dishcalories[0].toFixed(2)}} kj
+                      <h4>proteins:</h4> 
+                      {{dish.dishcalories[1].toFixed(2)}} g
+                      <h4>carbohydrates:</h4> 
+                      {{dish.dishcalories[2].toFixed(2)}} g
+                      <h4>fats:</h4> 
+                      {{dish.dishcalories[3].toFixed(2)}} g
+                      <h4>from that saturated:</h4>
+                      {{dish.dishcalories[4].toFixed(2)}} g
+                      <h4>sugar:</h4> 
+                      {{dish.dishcalories[5].toFixed(2)}} g
+                      <h4>saltr:</h4> 
+                      {{dish.dishcalories[6].toFixed(2)}} g
+                    
+                    </ion-item>
+                   
+                 </ion-list>
+               </ion-item> 
+               <ion-item>
+               <h4>{{dish.dishalergens}}</h4>
+              </ion-item> 
+              <p id="editLink" (click)="moreDishOptions(dish.id,dish.dishname,dish.recipe)">Click to edit</p>
+           </ion-list>
+          
+    </ion-item>
+  </ion-list> 
+
+  <!--desserts-->
+
+  <ion-list><ion-list-header  > Dessert dishes </ion-list-header>
+    <ion-item  *ngFor="let dish of dishList" text-wrap (click)="toggleLevel1('idx'+i)" [ngClass]="{active: isLevel1Shown('idx'+i)}" [class.hide]="dish.dishtype=='main'|| dish.dishtype=='starter'">
+     <h4>{{dish.dishname}}
+      <ion-icon color="success" item-right [name]="isLevel1Shown('idx'+i) ? 'arrow-dropdown' : 'arrow-dropright'"></ion-icon></h4> 
+     
+        <ion-list *ngIf="isLevel1Shown('idx'+i)">
+            <ion-item>{{dish.recipe}}</ion-item>
+             <ion-item  text-wrap (click)="toggleLevel2('idx'+i+'idx'+i2)" [ngClass]="{active: isLevel2Shown('idx'+i+'idx'+i2)}">
+               <h4> calories:
+               <ion-icon color="success" item-right [name]="isLevel2Shown('idx'+i+'idx'+i2) ? 'arrow-dropdown' : 'arrow-dropright'"></ion-icon></h4>
+                <ion-list *ngIf="isLevel2Shown('idx'+i+'idx'+i2)">
+               
+              
+                    
+                   <ion-item >
+                      <h4>energy value:</h4>  
+                      {{dish.dishcalories[0].toFixed(2)}} kj
+                      <h4>proteins:</h4> 
+                      {{dish.dishcalories[1].toFixed(2)}} g
+                      <h4>carbohydrates:</h4> 
+                      {{dish.dishcalories[2].toFixed(2)}} g
+                      <h4>fats:</h4> 
+                      {{dish.dishcalories[3].toFixed(2)}} g
+                      <h4>from that saturated:</h4>
+                      {{dish.dishcalories[4].toFixed(2)}} g
+                      <h4>sugar:</h4> 
+                      {{dish.dishcalories[5].toFixed(2)}} g
+                      <h4>saltr:</h4> 
+                      {{dish.dishcalories[6].toFixed(2)}} g
+                    
+                    </ion-item>
+                   
+                 </ion-list>
+               </ion-item> 
+               <ion-item>
+               <h4>{{dish.dishalergens}}</h4>
+              </ion-item> 
+              <p id="editLink" (click)="moreDishOptions(dish.id,dish.dishname,dish.recipe)">Click to edit</p>
+           </ion-list>
+          
+    </ion-item>
+  </ion-list> 
       
-       <ion-item (click)="moreDishOptions(dish.id,dish.dishname,dish.recipe)"> {{dish.dishname}}</ion-item>
 
-        <ion-item>{{dish.recipe}}</ion-item>
 
-        <ion-item >Dish ingredients:{{dish.ingredients}}</ion-item>
-        
-        <ion-item  ng-repeat="x in dish.dishcalories">
-          Dish calories: {{dish.dishcalories}}
-        <!-- <br/> Dish carbohydrates: {{dish.dishcalories[1]}} grams 
-         <br/> Dish fat: {{dish.dishcalories[2]}} grams 
-         <br/>  Dish saturatet fat: {{dish.dishcalories[3]}} grams 
-         <br/> Dish proteins: {{dish.dishcalories[4]}}grams
-         <br/> Dish salt:{{dish.dishcalories[5]}} grams
-         <br/> Dish sugar: {{dish.dishcalories[6]}} grams--></ion-item>
-        
-         
-         <ion-item>Dish contains these alergens: {{dish.dishalergens}} </ion-item>
-         
-       </ion-list>
-
-       </ion-item>
-      
-</ion-list>
-<!--
-<ion-list> <ion-list-header> Main dishes </ion-list-header>
-       <ion-item *ngFor="let dish of dishList | async" (click)="moredishOptions(dish.id)" [class.hide]="(dish.dishtype == "starter")">
-       <ion-icon name="more" color="danger" item-left></ion-icon> 
-       <h2> {{dish.dishname}}</h2> 
-       </ion-item>   
-</ion-list>-->
 
 
 </ion-content>

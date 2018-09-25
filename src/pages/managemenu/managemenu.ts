@@ -7,6 +7,9 @@ import { MenuProvider } from '../../providers/menu/menu';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { stagger } from '@angular/core/src/animation/dsl';
 
+  import {PopoverComponent} from '../../components/popover/popover';
+import { PopoverController } from 'ionic-angular/components/popover/popover-controller';
+import { HomePage } from '../home/home';
 
 /**
  * Generated class for the ManagemenuPage page.
@@ -30,75 +33,132 @@ export class ManagemenuPage {
 
   public menuList: Array<any>;
   public dishList: Array<any>;
-  public loadedDishList: Array<any>;
+  
  
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public menuProvider: MenuProvider, public dishProvider: DishProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public menuProvider: MenuProvider, public dishProvider: DishProvider, public popCtrl: PopoverController) {
    
   }
 
+  presentPopover(myEvent) {
+    let popover = this.popCtrl.create(PopoverComponent);
+    popover.present({
+      ev: PopoverComponent
+    });
+  }
+
+  goHome()
+  {
+    this.navCtrl.push(HomePage) ;
+   
+   }
+
   ionViewDidEnter() { this.menuId = this.navParams.get('menuId'); 
   this.menuProvider.getstarterDishes(this.menuId).valueChanges().subscribe(starters=> { this.starters = starters; }); 
-  this.menuProvider.getmainrDishes(this.menuId).valueChanges().subscribe(mains=> { this.mains = mains; });
+  this.menuProvider.getmainDishes(this.menuId).valueChanges().subscribe(mains=> { this.mains = mains; });
   this.menuProvider.getdessertDishes(this.menuId).valueChanges().subscribe(desserts=> { this.desserts = desserts; });
 
 
 }
 
-  initializeItems(): void {
-    this.dishList = this.loadedDishList;
-  }
   
-  getItems(searchbar) {
-    // Reset items back to all of the items
-    this.initializeItems();
-  
-    // set q to the value of the searchbar
-    var q = searchbar.srcElement.value;
-  
-  
-    // if the value is an empty string don't filter the items
-    if (!q) {
-      return;
-    }
-  
-    this.dishList = this.dishList.filter((v) => {
-      if(v.name && q) {
-        if (v.name.toLowerCase().indexOf(q.toLowerCase()) > -1) {
-          return true;
-        }
-        return false;
-      }
-    });
-  
-    console.log(q, this.dishList.length);
-  
-  }
 
-  addStarter(name,alergens)
+  addStarter(dishname,description,alergens, calories)
   { console.log(name);
-    if(alergens==undefined){alergens="no alergens";}
-    this.starters.push({alergens:alergens,dishname:name});
-console.log(this.starters)}
-  addMain(name,alergens){this.mains.push({alergens:alergens,dishname:name});}
-  addDessert(name,alergens){this.desserts.push({alergens:alergens,dishname:name});}
-
-
-  removeStarter(name,alergens){
-    let object=this.starters;
-    let index=object.indexOf({alergens:alergens,dishname:name})
- 
-    function getKeyByValue(object,{alergens:alergens,dishname:name}){
-      return Object.keys(object).find(key => object[key] === {alergens:alergens,dishname:name});
-     };
-     let key=getKeyByValue(object, {alergens:alergens,dishname:name});
-   
-     console.log(key);
-     console.log(index);
-     
-  
+    
+    this.starters.push({dishname,description,alergens, calories});
     console.log(this.starters);
+
   }
+  addMain(dishname,description,alergens, calories)
+  
+  {
+    this.mains.push({dishname,description,alergens, calories});
+    console.log(this.mains);
+  }
+
+  addDessert(dishname,description,alergens, calories)
+  {
+    this.desserts.push({dishname,description,alergens, calories});
+    console.log(this.desserts);
+    
+  }
+  
+
+  removeStarter(dishname){
+   
+ 
+    function findIndexInData(data, property, value) {
+      var result = -1;
+      data.some(function (item, i) {
+          if (item[property] === value) {
+              result = i;
+              return true;
+          }
+      });
+      return result;
+  }
+  var data = this.starters
+  
+  var index=findIndexInData(data, 'dishname', dishname);
+
+  this.starters.splice(index,1);
+
+
+  }
+
+
+  removeMain(dishname){
+   
+ 
+    function findIndexInData(data, property, value) {
+      var result = -1;
+      data.some(function (item, i) {
+          if (item[property] === value) {
+              result = i;
+              return true;
+          }
+      });
+      return result;
+  }
+  var data = this.mains
+  
+  var index=findIndexInData(data, 'dishname', dishname);
+
+  this.mains.splice(index,1);
+
+
+  }
+
+  removeDessert(dishname){
+   
+ 
+    function findIndexInData(data, property, value) {
+      var result = -1;
+      data.some(function (item, i) {
+          if (item[property] === value) {
+              result = i;
+              return true;
+          }
+      });
+      return result;
+  }
+  var data = this.desserts
+  
+  var index=findIndexInData(data, 'dishname', dishname);
+
+  this.desserts.splice(index,1);
+
+
+  }
+
+  updateMenu()
+  {
+    this.menuProvider.updateMenu(this.menuId,this.starters, this.mains,this.desserts);
+    
+  }
+
+
   ionViewDidLoad() {
     this.menuProvider.getMenuList().valueChanges().subscribe(menus=> {this.menuList=menus;}); 
     this.dishProvider.getDishList().valueChanges().subscribe(dishes=> { this.dishList = dishes; }); 

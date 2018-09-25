@@ -24,10 +24,17 @@ export class ResetpasswordPage {
    resetPassword(): void { if (!this.resetPasswordForm.valid) 
     { console.log(this.resetPasswordForm.value); } 
     else { const email: string = this.resetPasswordForm.value.email; this.authProvider.resetPassword(email).then
-      ( user => { const alert: Alert = this.alertCtrl.create({ message: 'We sent you a reset link to your email', buttons: [ { text: 'Ok', role: 'cancel', handler: () => { this.navCtrl.pop(); } } ] });
+      ( user => { const alert: Alert = this.alertCtrl.create({ message: 'We sent you a reset link. Please check your email', buttons: [ { text: 'Ok', role: 'cancel', handler: () => { this.navCtrl.pop(); } } ] });
        alert.present(); }, error => { var errorMessage: string = error.message;
        const errorAlert: Alert = this.alertCtrl.create({ message: errorMessage, buttons: [ { text: 'Ok', role: 'cancel' } ] });
        errorAlert.present(); } ); } }
+
+   //redirects to login page      
+ goToLogin(): void 
+ {
+    this.navCtrl.push('LoginPage');
+ }
+     
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ResetpasswordPage');

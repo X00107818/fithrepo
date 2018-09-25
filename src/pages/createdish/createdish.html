@@ -4,104 +4,133 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
+<!--header-->
+
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>createdish</ion-title>
-  </ion-navbar>
+  <ion-navbar hideBackButton  color="nav">
+      <h1 id="logo" (click)="goHome()"> 
+      <span id="chef" color="light">chef's</span><span id="menu" color="primary">menu</span></h1>
 
-</ion-header>
+   
+    <ion-buttons > <button ion-button icon-only (click)="presentPopover($event)" > 
+    <ion-icon name="person"></ion-icon> </button> </ion-buttons>
 
-
-<ion-content padding>
-   <ion-item>
-  
-    
-            <ion-searchbar (ionInput)="getItems($event)" placeholder="type ingredient" ></ion-searchbar>
-            <ion-list inset>
+    <ion-searchbar (ionInput)="getItems($event)" placeholder="filter ingredients" ></ion-searchbar>
+            
             <button  clear ion-item *ngFor="let ingredient of ingredientList" (click)="ingredientSelected(ingredient)" >
             <h2> {{ ingredient.name }} </h2> </button>
-      
-            
-            </ion-list>
-    </ion-item>
-    
+            </ion-navbar>
 
-    <form [formGroup]="newDishForm" (submit)="createDish()" novalidate>
-        <ion-item> 
-        <ion-label stacked>Dish Name</ion-label> 
-        <ion-input formControlName="dname" type="text" placeholder="How do you identify this dish?" [class.invalid]="!newDishForm.controls.dname.valid && blur">
-       </ion-input> 
-       </ion-item> 
+  
+
+</ion-header>
+<!--end of header-->
+
+<!--main content-->
+
+<ion-content padding>
+  <!--searchbar to store ingredient list-->
+ 
+  
+          
+
+  
+   <!--end of searchbar-->
     
-       <ion-list>
-        <ion-item>
-          <ion-label>Dish type</ion-label>
+   <!--create dish from-->
+   <form [formGroup]="newDishForm" (submit)="createDish()" novalidate>
+            
+             <!--dish name user input-->
+             <ion-item> 
+             
+             <ion-input formControlName="dname" type="text" placeholder="dish name" [class.invalid]="!newDishForm.controls.dname.valid && blur">
+             </ion-input> 
+            
+
+             </ion-item> 
+             <ion-item class="error-message"  *ngIf="!newDishForm.controls.dname.valid && newDishForm.controls.dname.dirty"> <p>* field is required<br/> minimum 5 characters long.</p> </ion-item>
+             <!--dish type user input-->
+             
+             <ion-item>
+                 <ion-label>dish type</ion-label>
          
-          <ion-select  formControlName="dtype" type="text" placeholder="select" [class.invalid]="!newDishForm.controls.dtype.valid && blur">
-            <ion-option value="starter">starter</ion-option>
-            <ion-option value="main">main</ion-option>
-            <ion-option value="desert">desert</ion-option>
-            
-          </ion-select>
-        </ion-item>
-      </ion-list>
+                 <ion-select  formControlName="dtype" type="text" placeholder="select" [class.invalid]="!newDishForm.controls.dtype.valid && blur">
+                    <ion-option value="starter">starter</ion-option>
+                    <ion-option value="main">main</ion-option>
+                    <ion-option value="desert">desert</ion-option>
+                 </ion-select>
+               
+             </ion-item>
+              <ion-item class="error-message"  *ngIf="!newDishForm.controls.dtype.valid && newDishForm.controls.dtype.dirty"> <p>Please select the type.</p> </ion-item>
 
-      <ion-item> 
-          <ion-label stacked>Dish description</ion-label> 
-          <ion-input formControlName="description" type="text" placeholder="You can type description for dish" [class.invalid]="!newDishForm.controls.recipe.valid && blur">
-         </ion-input> 
-      </ion-item>  
-    
-            <ion-item> 
-                <ion-label stacked>Recipe</ion-label> 
-                <ion-input formControlName="recipe" type="text" placeholder="You can type full recipe for dish" [class.invalid]="!newDishForm.controls.recipe.valid && blur">
-               </ion-input> 
-            </ion-item>  
-       </form>
-   
+             <!--dish description user input-->
+             <ion-item> 
+                
+                <ion-input formControlName="description" type="text" placeholder="dish description" [class.invalid]="!newDishForm.controls.recipe.valid && blur">
+                </ion-input> 
+              
+             </ion-item> 
+             <ion-item class="error-message"  *ngIf="!newDishForm.controls.description.valid && newDishForm.controls.description.dirty"> <p>* field is required<br/> minimum 20 characters long.</p> </ion-item>
+            <!--dish recipe user input-->
+             <ion-item> 
+              
+                <ion-input formControlName="recipe" type="text" placeholder="dish recipe" [class.invalid]="!newDishForm.controls.recipe.valid && blur">
+                </ion-input> 
+               
+             </ion-item>  
+             <ion-item class="error-message"  *ngIf="!newDishForm.controls.recipe.valid && newDishForm.controls.recipe.dirty"> <p>* field is required<br/> minimum 30 characters long.</p> </ion-item>
+                  <!--submit  button-->
+     <button  ion-button block type="submit"  [disabled]="!newDishForm.valid">Create dish</button>  
+     </form>
+     <!--end of create dish form-->
       
             
   
        
-       
-      <h6 [class.hide] ="s_ingredientList.length>0">  No ingredients added . Please use searchbox above to select ingredient.</h6> 
+    <!--listing ingredients added to dish--> 
+     <h5 [class.hide] ="s_ingredientList.length>0"> No ingredients added . Please use searchbox above to select ingredient.</h5> 
      
      
-      <h6 [class.hide] ="s_ingredientList.length==0">  Added ingredients:</h6>
+     <h5 [class.hide] ="s_ingredientList.length==0"> Added ingredients:</h5>
   
                
-    <ion-list>
-    <ion-item-sliding *ngFor="let singredient of s_ingredientList" detail-push >
-          <ion-item>  {{singredient}}  </ion-item>
-          <ion-item-options>
-                        <button ion-button icon-only (click)="editS_ingredient(singredient)" light>
-                            <ion-icon name="paper"></ion-icon>
-                        </button>
-                        <button ion-button icon-only (click)="deleteS_ingredient(singredient)" danger>
-                            <ion-icon name="trash"></ion-icon>
-                        </button>
-           </ion-item-options>
-    </ion-item-sliding>
-    </ion-list>
-    
-    <h6 [class.hide]="alergenList.length>0">There are no alergens in the dish</h6>
-    <h6  [class.hide]="alergenList.length==0">These are the alergens in the dish:</h6>
-    
-    <ion-list>
-      <ion-item *ngFor="let alergen of alergenList " > 
-      <ion-item><h2>{{alergen}}</h2> </ion-item>
-    
-      </ion-item> 
-    </ion-list>
-
-    <ion-item>
-    <h6>Dish calories: {{dishcal}} kj<br/> Dish carbohydrates: {{dishcarbs}} grams <br/> Dish fat: {{dishfat}} grams<br/> Dish proteins{{dishproteins}}grams<br/> Dish saturatet fat: {{dishsatf}} grams<br/> Dish sugar: {{dishsugar}} grams<br/> Dish salt:{{dishsalt}} grams </h6> 
-    </ion-item> 
-      
-      
-     <button  ion-button block type="submit" (click)="createDish()">Create dish</button>  
-    
-
    
+        <button ion-item  *ngFor="let singredient of s_ingredientList" (click)="delete_S_Ingredient(singredient)">
+            <ion-icon name="trash" item-start></ion-icon>
+            {{singredient}}
+        </button>
+    
+      
+     <!--end of list of ingredient added-->
+    
+     <!--listing alergens contained in the dish-->
+     <h5 [class.hide]="alergenList.length>0">There are no alergens in the dish</h5>
+     <h5  [class.hide]="alergenList.length==0">These are the alergens in the dish:</h5>
+    
+     <ion-list>
+      <ion-item *ngFor="let alergen of alergenList " > 
+       <h2>{{alergen}}</h2>
+      </ion-item> 
+     </ion-list>
+     <!--end of alergen list-->
+
+     <!--listing calories values in dish--> 
+      <ion-item class="nutritions">
+        calories: {{totalCalories[0].toFixed(2)}} kj<br/>
+        proteins {{totalCalories[1].toFixed(2)}} g<br/>
+        carbohydrates: {{totalCalories[2].toFixed(2)}} g<br/>
+        fat: {{totalCalories[3].toFixed(2)}} g<br/>
+        saturated fat: {{totalCalories[4].toFixed(2)}} g<br/>
+        sugar: {{totalCalories[5].toFixed(2)}} g<br/>
+        salt:{{totalCalories[6].toFixed(2)}} g
+      </ion-item>-->
+     <!--end of calories list
+     
+
+    
+    
+  
 </ion-content>
+
+<!--end of main content-->

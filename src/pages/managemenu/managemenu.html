@@ -6,66 +6,72 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>managemenu</ion-title>
-  </ion-navbar>
+    <ion-navbar hideBackButton  color="nav">
+        <h1 id="logo" (click)="goHome()"> 
+        <span id="chef" color="light">chef's</span><span id="menu" color="primary">menu</span><br/><em>Manage menu</em></h1>
+  
+     
+      <ion-buttons end> <button ion-button icon-only (click)="presentPopover($event)" >  <ion-icon name="person"></ion-icon> </button> </ion-buttons>
+    </ion-navbar>
 
 </ion-header>
 
-
 <ion-content padding>
 
-    <ion-item> 
-        <h6> Add starter to your menu </h6>
-      <ion-searchbar (ionInput)="getItems($event)" placeholder="type dish" ></ion-searchbar>
-      <ion-list inset>
-       
-      <button  clear ion-item *ngFor="let dish of dishList" (click)="addStarter(dish.dishname,dish.dishalergens)" [class.hide]="dish.dishtype=='main'|| dish.dishtype=='desert'" >
-      <h2> {{ dish.dishname }} </h2> <ion-icon name="add" item-left></ion-icon> </button>
-      </ion-list>
-      </ion-item>
-      <ion-item>
-          <h6> Add main to your menu </h6>
-      <ion-searchbar (ionInput)="getItems($event)" placeholder="type dish" ></ion-searchbar>
-      <ion-list inset>
-      <button  clear ion-item *ngFor="let dish of dishList" (click)="addMain(dish.dishname, dish.dishalergens)" [class.hide]="dish.dishtype=='starter'|| dish.dishtype=='desert'" >
-      <h2> {{ dish.dishname }} </h2> <ion-icon name="add" item-left></ion-icon> </button>
-      </ion-list>
-      </ion-item>
+   <!--add starter--> 
+   <ion-list>
+      <ion-list-header> Add starters to your menu: </ion-list-header>
+      <ion-item *ngFor="let dish of dishList" (click)="addStarter(dish.dishname,dish.description,dish.dishalergens, dish.dishcalories)" [class.hide]="dish.dishtype=='main'|| dish.dishtype=='desert'">
+      <h2> {{ dish.dishname }} </h2> <ion-icon name="add" item-end></ion-icon>
+      </ion-item> 
+  </ion-list> 
 
-      <ion-item>
-          <h6> Add dessert to your menu </h6>
-      <ion-searchbar (ionInput)="getItems($event)" placeholder="type dish" ></ion-searchbar>
-      <ion-list inset>
-      <button  clear ion-item *ngFor="let dish of dishList" (click)="addDessert(dish.dishname, dish.dishalergens)" [class.hide]="dish.dishtype=='main'|| dish.dishtype=='starter'" >
-      <h2> {{ dish.dishname }} </h2> <ion-icon name="add" item-left></ion-icon> </button>
-      </ion-list>
 
-      </ion-item>
-     
+  <!--add main--> 
+  <ion-list>
+      <ion-list-header> Add mains to your menu: </ion-list-header>
+      <ion-item *ngFor="let dish of dishList" (click)="addMain(dish.dishname,dish.description,dish.dishalergens, dish.dishcalories)" [class.hide]="dish.dishtype=='starter'|| dish.dishtype=='desert'">
+      <h2> {{ dish.dishname }} </h2> <ion-icon name="add" item-end></ion-icon>
+      </ion-item> 
+  </ion-list> 
+
+
+    <!--add dessert--> 
+    <ion-list>
+        <ion-list-header> Add desserts to your menu: </ion-list-header>
+        <ion-item *ngFor="let dish of dishList" (click)="addDessert(dish.dishname,dish.description,dish.dishalergens, dish.dishcalories)" [class.hide]="dish.dishtype=='starter'|| dish.dishtype=='main'">
+        <h2> {{ dish.dishname }} </h2> <ion-icon name="add" item-end></ion-icon>
+        </ion-item> 
+    </ion-list> 
+
+    
    
-<ion-list> <ion-list-header> Starters: </ion-list-header>
+<ion-list> <ion-list-header> Added starters: </ion-list-header>
  
-      <ion-item *ngFor="let starter of starters"> 
-        <button (click)="removeStarter(starter.dishname,starter.alergens)">
+      <ion-item *ngFor="let starter of starters" (click)="removeStarter(starter.dishname)"> 
+          <ion-icon name="trash" item-start></ion-icon>
           dishname:  {{starter.dishname}}
-           <br/> alergens: {{starter.alergens}}</button>
+           
         </ion-item>
   </ion-list>
 
 
-<ion-list> <ion-list-header> Mains: </ion-list-header> <ion-item *ngFor="let main of mains"> 
+<ion-list> <ion-list-header> Added Mains: </ion-list-header> 
+  <ion-item *ngFor="let main of mains" (click)="removeMain(main.dishname)"> 
+      <ion-icon name="trash" item-start></ion-icon>
+    
       dishname: {{main.dishname}}
-    <br/>  alergens: {{main.alergens}}
+    
 </ion-item>
 
  </ion-list>
 
 
- <ion-list> <ion-list-header> Deserts: </ion-list-header>
-  <ion-item *ngFor="let dessert of desserts"> 
-      dishname: {{dessert.dishname}} <br/>
-      alergens: {{dessert.alergens}} 
+ <ion-list> <ion-list-header> Added Deserts: </ion-list-header>
+  <ion-item *ngFor="let dessert of desserts" (click)="removeDessert(dessert.dishname)"> 
+      <ion-icon name="trash" item-start></ion-icon>
+    
+      dishname: {{dessert.dishname}} 
   </ion-item>
 </ion-list> 
 

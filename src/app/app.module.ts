@@ -11,8 +11,6 @@ import { HttpModule } from '@angular/http';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { Observable} from 'rxjs/Observable';
-/*import { Camera } from '@ionic-native/camera';*/
 
 
 import { AuthProvider } from '../providers/auth/auth';
@@ -20,10 +18,12 @@ import { DishProvider } from '../providers/dish/dish';
 import { ProfileProvider} from '../providers/profile/profile';
 import { MenuProvider} from '../providers/menu/menu';
 
-import { IngredientsProvider } from '../providers/ingredients/ingredients';
+
 import { HomePage } from '../pages/home/home';
 import { PasswordValidator } from '../validators/password.validator';
 import { PopoverComponent } from '../components/popover/popover';
+import {TabsPage} from  '../pages/tabs/tabs';
+
 
 
 
@@ -37,19 +37,16 @@ export const firebaseConfig = {
 
 };
 
-/*class CameraMock extends Camera {
-  getPicture(options) {
-    return new Promise((resolve, reject) => {
-     
-    });
-  }
-}*/
+
 
 @NgModule({
   declarations: [
     MyApp,
+    TabsPage,
     HomePage,
-    PopoverComponent
+    PopoverComponent,
+    
+  
 
   
    
@@ -68,8 +65,11 @@ export const firebaseConfig = {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    TabsPage,
     HomePage,
-    PopoverComponent
+    PopoverComponent,
+    
+  
     
      
   ],
@@ -83,8 +83,6 @@ export const firebaseConfig = {
     DishProvider,
     ProfileProvider,
     MenuProvider,
-  
-    IngredientsProvider,
     ProfileProvider,
     PasswordValidator
   

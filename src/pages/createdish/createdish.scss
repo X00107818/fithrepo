@@ -1,3 +1,29 @@
 page-createdish {
+  ion-content{background: url(../assets/imgs/ingredients4.jpg);}
+ 
+ h5{color:color($colors,dark); 
+  text-shadow:
+  1px 1px 0 rgba(255,255,255,.8),
+ -1px -1px 0 rgba(255,255,255,.8) ,  
+  1px -1px 0 rgba(255,255,255,.8),
+ -1px 1px 0 rgba(255,255,255,.8) ,
+  1px 1px 0 rgba(255,255,255,.8) ;}
 
+  /*styles for nutriotion total value ouput*/
+  .nutritions
+  {
+    margin-bottom:20px; 
+    text-decoration:underline; 
+    text-decoration-style:double;
+    background: linear-gradient(color($colors,nav),color($colors,pastel),color($colors,primary))}
+ 
+.item.error-message{background-color:color($colors,pastel);}
+ .item.error-message p{color:#dc3545 !important; }
+
+ button{border:medium none !important;}
+ ion-buttons{
+   position:absolute;
+   right:10px;
+   top:20px;
+}
 }

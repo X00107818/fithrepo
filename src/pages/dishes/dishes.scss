@@ -1,3 +1,6 @@
 page-dishes {
+    ion-content{ background: url(../assets/imgs/ingredients4.jpg)}
+    ion-list-header{ background: color($colors,pastel) !important;}
+    #editLink{ text-decoration: underline; color:color($colors,pastel);}
 
 }

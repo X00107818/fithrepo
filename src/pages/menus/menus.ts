@@ -7,6 +7,9 @@ import firebase from 'firebase/app';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { ModalController } from 'ionic-angular/components/modal/modal-controller';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'; 
+import { PopoverController } from 'ionic-angular/components/popover/popover-controller';
+import {PopoverComponent} from '../../components/popover/popover';
+   import { HomePage } from '../home/home';
 /**
  * Generated class for the MenusPage page.
  *
@@ -23,14 +26,64 @@ export class MenusPage {
   public newMenuForm: FormGroup; 
  
   public menuList: Array<any>;
+  
+  showLevel1 = null;
+  showLevel2 = null;
+  
 
 
 
-  constructor( public navCtrl: NavController,public formBuilder:FormBuilder, public afAuth:AngularFireAuth,public modal:ModalController, public navParams: NavParams,public platform: Platform, public dishProvider: DishProvider,public actionCtrl: ActionSheetController, public alertCtrl: AlertController,public menuProvider: MenuProvider) {
+  constructor( public navCtrl: NavController,public formBuilder:FormBuilder, public afAuth:AngularFireAuth,public modal:ModalController, public navParams: NavParams,public platform: Platform, public dishProvider: DishProvider,public actionCtrl: ActionSheetController, public alertCtrl: AlertController,public menuProvider: MenuProvider,public popCtrl:PopoverController)
+  
+  
+      {
    
+
       }
 
- 
+      goHome()
+      {
+        this.navCtrl.push(HomePage) ;
+       
+       }
+
+      toggleLevel1(idx) {
+        if (this.isLevel1Shown(idx)) {
+          this.showLevel1 = null;
+        } else {
+          this.showLevel1 = idx;
+        }
+      };
+      
+      toggleLevel2(idx) {
+        if (this.isLevel2Shown(idx)) {
+          this.showLevel1 = null;
+          this.showLevel2 = null;
+        } else {
+          this.showLevel1 = idx;
+          this.showLevel2 = idx;
+        }
+      };
+      
+
+    
+      isLevel1Shown(idx) {
+        return this.showLevel1 === idx;
+      };
+      
+      isLevel2Shown(idx) {
+        return this.showLevel2 === idx;
+      };
+      
+     
+    
+    
+      presentPopover(myEvent) {
+        let popover = this.popCtrl.create(PopoverComponent);
+        popover.present({
+          ev: PopoverComponent
+        });
+      }
    
       moreMenuOptions(menuId:string, date:string, name:string ):void { let action:ActionSheet = this.actionCtrl.create({ title: 'Modify your menu',
       buttons: [ 

@@ -1,3 +1,6 @@
 page-createmenu {
+    ion-content{background: url(../assets/imgs/menu2.jpg); background-size:cover;}
+    ion-list-header{ background: color($colors,pastel) !important;}
+    .item.error-message{background-color:color($colors,pastel);}
 
 }

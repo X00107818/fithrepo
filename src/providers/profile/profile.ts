@@ -31,9 +31,12 @@ public userId: string;
   getProfile(): AngularFireObject<any> 
   { return this.afDatabase.object(`/userProfile/${this.userId}`); 
 }
-createProfile( firstname: string, lastname: string, uname: string, isadmin: boolean ): Promise<any> 
-{ return this.afDatabase.object(`/userProfile/${this.userId}`).update({ firsname: firstname,lastname: lastname,uname: uname,isadmin:isadmin })
+
+
+createProfile( firstname: string, lastname: string, uname: string, isadmin: boolean=true ): Promise<any> 
+{ return this.afDatabase.object(`/userProfile/${this.userId}`).update({ firstname: firstname,lastname: lastname,uname: uname,isadmin:isadmin })
   } 
+
 
 updateUname(uname: string): Promise<any> 
 { return this.afDatabase.object(`/userProfile/${this.userId}`).update({ uname: uname })
@@ -41,7 +44,7 @@ updateUname(uname: string): Promise<any>
 
  createadminProfile( orgname:string, firstname: string=null, lastname: string, isadmin: boolean = true ): Promise<any> 
 
- { return this.afDatabase.object(`/userProfile/${this.userId}`).update({ firsname: firstname,lastname: lastname,isadmin:isadmin })
+ { return this.afDatabase.object(`/userProfile/${this.userId}`).update({ firstname: firstname,lastname: lastname,isadmin:isadmin })
 }
 
 

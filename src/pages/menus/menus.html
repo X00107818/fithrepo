@@ -6,37 +6,151 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>menus</ion-title>
-  </ion-navbar>
+    <ion-navbar hideBackButton  color="nav">
+        <h1 id="logo"(click)="goHome()" > 
+        <span id="chef" color="light">chef's</span><span id="menu" color="primary">menu</span><br/><em>Menus</em></h1>
+  
+     
+      <ion-buttons end> <button ion-button icon-only (click)="presentPopover($event)" >  <ion-icon name="person"></ion-icon> </button> </ion-buttons>
+    </ion-navbar>
 
 </ion-header>
 <ion-content padding>
   
-   
-
-
+  <!--multlevel list showing menu-->
+    <ion-list>
+      <ion-item  *ngFor="let menu of menuList" text-wrap (click)="toggleLevel1('idx'+i)" [ngClass]="{active: isLevel1Shown('idx'+i)}">
+       <h4>{{menu.name}}
+        <ion-icon color="success" item-right [name]="isLevel1Shown('idx'+i) ? 'arrow-dropdown' : 'arrow-dropright'"></ion-icon></h4> 
+       <!--starters--> 
+       <ion-list *ngIf="isLevel1Shown('idx'+i)">
+          <ion-list-header> starters: </ion-list-header>
+           <ion-item  *ngFor="let starter of menu.starters; let i2=index" text-wrap (click)="toggleLevel2('idx'+i+'idx'+i2)" [ngClass]="{active: isLevel2Shown('idx'+i+'idx'+i2)}">
+             <h4>{{starter.dishname}}
+             <ion-icon color="success" item-right [name]="isLevel2Shown('idx'+i+'idx'+i2) ? 'arrow-dropdown' : 'arrow-dropright'"></ion-icon></h4>
+              <ion-list *ngIf="isLevel2Shown('idx'+i+'idx'+i2)">
+              <h4>{{starter.description}}</h4>
+              <h4>alergens:
+                   
+                 </h4>
+                 <ion-item  *ngFor="let alergen of starter.alergens" text-wrap >
+                
+                   {{alergen}}
+                  
+                  </ion-item>
+                  <h4>
+                    calories:
+                  </h4>
+                  <ion-item >
+                    <h4>energy value:</h4>  
+                    {{starter.calories[0].toFixed(2)}} kj
+                    <h4>proteins:</h4> 
+                    {{starter.calories[1].toFixed(2)}} g
+                    <h4>carbohydrates:</h4> 
+                    {{starter.calories[2].toFixed(2)}} g
+                    <h4>fats:</h4> 
+                    {{starter.calories[3].toFixed(2)}} g
+                    <h4>from that saturated:</h4>
+                    {{starter.calories[4].toFixed(2)}} g
+                    <h4>sugar:</h4> 
+                    {{starter.calories[5].toFixed(2)}} g
+                    <h4>saltr:</h4> 
+                    {{starter.calories[6].toFixed(2)}} g
+                  
+                  </ion-item>
+                 
+               </ion-list>
+             </ion-item>
+         </ion-list>
+       <!--mains-->
+       <ion-list *ngIf="isLevel1Shown('idx'+i)">
+          <ion-list-header> mains: </ion-list-header>
+           <ion-item  *ngFor="let main of menu.mains; let i2=index" text-wrap (click)="toggleLevel2('idx'+i+'idx'+i2)" [ngClass]="{active: isLevel2Shown('idx'+i+'idx'+i2)}">
+             <h4>{{main.dishname}}
+             <ion-icon color="success" item-right [name]="isLevel2Shown('idx'+i+'idx'+i2) ? 'arrow-dropdown' : 'arrow-dropright'"></ion-icon></h4>
+              <ion-list *ngIf="isLevel2Shown('idx'+i+'idx'+i2)">
+              <h4>{{main.description}}</h4>
+              <br/>
+              <h4>alergens:
+                   
+                 </h4>
+                 <ion-item  *ngFor="let alergen of main.alergens" text-wrap >
+                
+                   {{alergen}}
+                  
+                  </ion-item>
+                  <h4>
+                    calories:
+                  </h4>
+                  <ion-item >
+                    <h4>energy value:</h4>  
+                    {{main.calories[0].toFixed(2)}} kj
+                    <h4>proteins:</h4> 
+                    {{main.calories[1].toFixed(2)}} g
+                    <h4>carbohydrates:</h4> 
+                    {{main.calories[2].toFixed(2)}} g
+                    <h4>fats:</h4> 
+                    {{main.calories[3].toFixed(2)}} g
+                    <h4>from that saturated:</h4>
+                    {{main.calories[4].toFixed(2)}} g
+                    <h4>sugar:</h4> 
+                    {{main.calories[5].toFixed(2)}} g
+                    <h4>saltr:</h4> 
+                    {{main.calories[6].toFixed(2)}} g
+                  
+                  </ion-item>
+                 
+               </ion-list>
+             </ion-item>
+         </ion-list>
+          <!--desserts-->
+           <ion-list *ngIf="isLevel1Shown('idx'+i)">
+              <ion-list-header> desserts: </ion-list-header>
+               <ion-item  *ngFor="let dessert of menu.deserts; let i2=index" text-wrap (click)="toggleLevel2('idx'+i+'idx'+i2)" [ngClass]="{active: isLevel2Shown('idx'+i+'idx'+i2)}">
+                 <h4>{{dessert.dishname}}
+                 <ion-icon color="success" item-right [name]="isLevel2Shown('idx'+i+'idx'+i2) ? 'arrow-dropdown' : 'arrow-dropright'"></ion-icon></h4>
+                  <ion-list *ngIf="isLevel2Shown('idx'+i+'idx'+i2)">
+                 <h4> {{dessert.description}}</h4><br/>
+                  <h4>alergens:
+                       
+                     </h4>
+                     <ion-item  *ngFor="let alergen of dessert.alergens" text-wrap >
+                    
+                       {{alergen}}
+                      
+                      </ion-item>
+                      <h4>
+                        calories:
+                      </h4>
+                      <ion-item >
+                        <h4>energy value:</h4>  
+                        {{dessert.calories[0].toFixed(2)}} kj
+                        <h4>proteins:</h4> 
+                        {{dessert.calories[1].toFixed(2)}} g
+                        <h4>carbohydrates:</h4> 
+                        {{dessert.calories[2].toFixed(2)}} g
+                        <h4>fats:</h4> 
+                        {{dessert.calories[3].toFixed(2)}} g
+                        <h4>from that saturated:</h4>
+                        {{dessert.calories[4].toFixed(2)}} g
+                        <h4>sugar:</h4> 
+                        {{dessert.calories[5].toFixed(2)}} g
+                        <h4>saltr:</h4> 
+                        {{dessert.calories[6].toFixed(2)}} g
+                      
+                      </ion-item>
+                     
+                   </ion-list>
+                 </ion-item> 
+                 <p id="editLink" (click)="moreMenuOptions(menu.id, menu.date, menu.name)">Click to edit</p>
+             </ion-list>
+       
+      </ion-item>
+    </ion-list>
   
-     <ion-list *ngFor="let menu of menuList" (click)="moreMenuOptions(menu.id, menu.date, menu.name)"> 
-          <ion-item > <ion-icon color="secondary" name="information-circle" item-left> </ion-icon>Menu name: {{ menu.name}}  <br/>
-             valid from: {{menu.date}}  </ion-item> 
-              <h6>starters:</h6>
-               <ion-item *ngFor="let starter of menu.starters"> 
-                  dishname:  {{starter.dishname}}
-                   <br/> alergens: {{starter.alergens}}
-                </ion-item>
-                <h6>mains:</h6>
-              <ion-item *ngFor="let main of menu.mains"> 
-                      dishname: {{main.dishname}}
-                    <br/>  alergens: {{main.alergens}}
-              </ion-item>
-              <h6>desserts:</h6>
-                <ion-item *ngFor="let dessert of menu.deserts"> 
-                    dishname: {{dessert.dishname}} <br/>
-                    alergens: {{dessert.alergens}} 
-                </ion-item>
-      
-        </ion-list>
+
+    
+   
     
    
 

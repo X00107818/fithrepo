@@ -5,6 +5,7 @@ import { AngularFireDatabase, AngularFireObject, AngularFireList } from 'angular
 import firebase from 'firebase/app';
 
 
+
 /*
   Generated class for the DishProvider provider.
 
@@ -13,20 +14,17 @@ import firebase from 'firebase/app';
 */
 @Injectable()
 export class DishProvider {
-  public dishcalories: number=0;
-  public dishproteins: number=0;
-  public dishcarbohydrates: number=0;
-  public dishsalt: number=0;
-  public sugarsugar: number=0;
-  public dishfat: number=0;
-  public dishsaturatedF: number=0;
-  public dishsugar:number=0;
-  public dishList: AngularFireList<any>;
+  public dishcalories = [0,0,0,0,0,0,0];
+
+ 
+  public dishList: AngularFireList<any>;  
+  public ingredientList:  AngularFireList<any>;
 
 public userId: string;
 public s_ingredientCalList: any[]=[];
   public s_ingredientList: any[]=[];
-  public alergenFullList: any[]=[];
+
+  public alergenOccurence: any[]=[];
   public alergenList: any[]=[];
   public dishCalList: any[]=[];
   
@@ -40,6 +38,8 @@ public s_ingredientCalList: any[]=[];
     this.afAuth.authState.subscribe(user => 
       { this.userId = user.uid; 
         this.dishList = this.afDatabase.list(`/userProfile/${user.uid}/dishList`); });
+
+        this.ingredientList=this.afDatabase.list(`/Ingredients`);
        
 
   }
@@ -47,6 +47,8 @@ public s_ingredientCalList: any[]=[];
   calculateIngredientcalories(singredient){}
 
   getDishList(): AngularFireList<any> { return this.dishList; }
+
+  getIngredientList(): AngularFireList<any> { return this.ingredientList; }
 
   getDishIngredients(dishId: string): AngularFireObject<any> 
   { return this.afDatabase.object(`/userProfile/${this.userId}/dishList/${dishId}/ingredients`); 
@@ -68,10 +70,15 @@ getDishFullAlergenList(dishId: string): AngularFireObject<any>
 { return this.afDatabase.object(`/userProfile/${this.userId}/dishList/${dishId}/dishalergens`); 
 }
 
-createDish( dishname: string, dishtype: string, description:string, recipe:string,dishcalories: string [],ingredientcalories:string[], dishalergens:string[],ingredientalergens:string[],ingredients:string[]): Promise<any> 
+createDish( dishname: string, dishtype: string, description:string, recipe:string,dishcalories: number [],ingredientcalories:string[], dishalergens:string[],ingredientalergens:string[],ingredients:string[]): Promise<any> 
 { const newDishRef: firebase.database.ThenableReference = this.dishList.push( {} );
  return newDishRef.set({ dishname, dishtype, description, recipe,dishcalories ,ingredientcalories,dishalergens,ingredientalergens,ingredients,id: newDishRef.key }); } 
 
+ //  "name", "calories" , "sugar" , "salt" , "fat" , "saturatedF" , "carbohydrates" , "proteins" , 
+    // alergens" , "measureUnit"    
+ createIngredient(name: string, calories: number, proteins:number, carbohydrates:number, fat: number ,saturatedF:number, sugar: number, salt:number, alergens:string, measureUnit:string): Promise<any> 
+{ const newIngredientRef: firebase.database.ThenableReference = this.ingredientList.push( {} );
+ return newIngredientRef.set({ name, calories, proteins, carbohydrates,fat ,saturatedF,sugar,salt,alergens,measureUnit }); } 
 
  removeDish(dishId: string): Promise<any> { return this.dishList.remove(dishId); }
 
@@ -80,7 +87,10 @@ createDish( dishname: string, dishtype: string, description:string, recipe:strin
 { return this.afDatabase.object(`/userProfile/${this.userId}/dishList/${dishId}`).update({ dishname: dishname });
   } 
 
-updateIngredients(){}  
+updateIngredients(dishId, dishcalories: string [],ingredientcalories:string[], dishalergens:string[],ingredientalergens:string[],ingredients:string[]): Promise<any>
+{
+  return  this.afDatabase.object(`/userProfile/${this.userId}/dishList/${dishId}`).update({ dishcalories: dishcalories,ingredientcalories:ingredientcalories,dishalergens:dishalergens,ingredientalergens:ingredientalergens,ingredients:ingredients });
+}  
 
 removeIngredient(dishId,index):Promise<any>{  let ingredientList=this.afDatabase.list(`/userProfile/${this.userId}/dishList/${dishId}/ingredients/`);
 return ingredientList.remove(index); }

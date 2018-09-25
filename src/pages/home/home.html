@@ -4,24 +4,23 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<ion-header>
-
-  <ion-navbar>
-    <ion-title>home</ion-title>
-   
-  </ion-navbar>
- <ion-buttons end> <button ion-button icon-only (click)="presentPopover($event)" >  <ion-icon name="person"></ion-icon> </button> </ion-buttons> 
+<ion-header >
+  <ion-navbar color="nav">
+  <h1 id="logo" (click)="goHome()"><span id="chef" color="light">chef's</span><span id="menu">menu</span></h1>
+ 
+ <ion-buttons > <button ion-button icon-only (click)="presentPopover($event)" >  <ion-icon name="person"></ion-icon> </button> </ion-buttons> 
+</ion-navbar>
 </ion-header>
 
 
 
-<ion-content padding> <button ion-button color="dark"  clear (click)="logMeout()">Sign out</button>
+<ion-content padding> 
   
 
     <ion-content class="card-background-page">
 
         <ion-card>
-          <img src="./assets/imgs/createdish.jpg"/>
+          <img src="./assets/imgs/ingredients3.jpg"/>
           <div class="card-title" (click)="goToCreateDish()">Create dish</div>
           <div class="card-subtitle">Create and store new dishes, record recipes and count calories</div>
          <div class="overlay"></div>
@@ -29,19 +28,19 @@
         
       
         <ion-card>
-          <img src="./assets/imgs/createmenu.jpg"/>
+          <img src="./assets/imgs/createmenu2.jpg"/>
           <div class="card-title"(click)="goToCreateMenu()">Create menu</div>
           <div class="card-subtitle">Create and store new menus</div>
           <div class="overlay"></div></ion-card>
       
         <ion-card>
-          <img src="./assets/imgs/dishes.jpg"/>
+          <img src="./assets/imgs/dish2.jpg"/>
           <div class="card-title"(click)="goToDishes()">Dishes</div>
           <div class="card-subtitle">View or edit existing dishes</div>
           <div class="overlay"></div></ion-card>
       
         <ion-card>
-          <img src="./assets/imgs/menus.jpg"/>
+          <img src="./assets/imgs/menu2.jpg"/>
           <div class="card-title" (click)="goToMenus()"> Menus</div>
           <div class="card-subtitle">View or edit existing menus</div>
           <div class="overlay"></div></ion-card>

@@ -12,6 +12,7 @@ import firebase from 'firebase/app';
 @Injectable()
 export class MenuProvider {
   public menuList: AngularFireList<any>;
+  public starterList: AngularFireList<any>;
   public userId: string;
   public starters: any[]=[];
   public mains: any[]=[];
@@ -20,22 +21,55 @@ export class MenuProvider {
 
   constructor(public afAuth: AngularFireAuth, public afDatabase: AngularFireDatabase) {
     this.afAuth.authState.subscribe(user => 
-      { this.userId = user.uid; 
+      { 
+        this.userId = user.uid; 
         this.menuList = this.afDatabase.list(`/userProfile/${user.uid}/menuList`); });
-  }
+       }
 
   getMenuList(): AngularFireList<any> { return this.menuList; }
 
-  getDish(menuId: string): AngularFireObject<any> 
-  { return this.afDatabase.object( `/userProfile/${this.userId}/dishList/${menuId}` ); 
-}
-createMenu(name: string, date: string ): Promise<any> 
-{ const starters=this.starters;
-  const mains=this.mains;
-  const deserts=this.desserts;
-  const newMenuRef: firebase.database.ThenableReference = this.menuList.push( {} );
- return newMenuRef.set({name, date, starters, mains, deserts,id: newMenuRef.key }); } 
+  getMenu(menuId: string): AngularFireObject<any> 
+  { 
+    return this.afDatabase.object( `/userProfile/${this.userId}/dishList/${menuId}` ); 
+  }
 
+
+  createMenu(name: string, date: string ): Promise<any> 
+   { 
+      
+     
+     
+      const newMenuRef: firebase.database.ThenableReference = this.menuList.push( {} );
+     
+      return newMenuRef.set({dishname:name, date: date, id: newMenuRef.key, starters: this.starters, mains: this.mains, deserts:this.desserts});
+      
+
+    } 
+
+    updateMenu(id,starters, mains, desserts)
+    {
+      return this.afDatabase.object( `/userProfile/${this.userId}/menuList/${id}`).update({starters:starters, mains:mains,deserts:desserts});
+    }
+  pushStarters(key){
+    const starters=this.starters;
+    this.starterList= this.afDatabase.list(`/userProfile/${this.userId}/menuList/${key}/starters`);
+    for (var i=0; i<Object.keys(starters).length; i++){
+      const newStarterRef: firebase.database.ThenableReference = this.starterList.push({});
+      newStarterRef.set({starters})
+    }
+
+
+ }   
+
+  pushMains(key){
+    const mains=this.mains;
+  
+  }   
+
+   pushDesserts(key){
+     const deserts=this.desserts;
+
+  }
 
  removeMenu(menuId: string): Promise<any> { return this.menuList.remove(menuId); }
 
@@ -48,7 +82,7 @@ createMenu(name: string, date: string ): Promise<any>
     return this.afDatabase.object(`/userProfile/${this.userId}/menuList/${menuId}/starters`);
   }
 
-  getmainrDishes(menuId){
+  getmainDishes(menuId){
     return this.afDatabase.object(`/userProfile/${this.userId}/menuList/${menuId}/mains`);
   }
 

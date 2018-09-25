@@ -1,0 +1,134 @@
+<!--
+  Generated template for the AddIngredientPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>addIngredient</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+   <!--add ingredient form 
+     "name", "calories" , "sugar" , "salt" , "fat" , "saturatedF" , "carbohydrates" , "proteins" , 
+     alergens" : "", "measureUnit":"grams"-->
+   <form [formGroup]="newIngredientForm" (submit)="addIngredient()" novalidate>
+            
+      <!--ingredient name user input-->
+      <ion-item> 
+      
+      <ion-input formControlName="iname" type="text" placeholder="name" [class.invalid]="!newIngredientForm.controls.iname.valid && blur">
+      </ion-input> 
+     
+
+      </ion-item> 
+    
+     <!--ingredient calories input-->
+      
+      <ion-item> 
+      
+          <ion-input formControlName="icalorie" type="number" placeholder="calories" [class.invalid]="!newIngredientForm.controls.icalorie.valid && blur">
+          </ion-input> 
+         
+    
+       </ion-item> 
+          
+
+       <!--ingredient proteins input-->
+      
+      <ion-item> 
+      
+          <ion-input formControlName="iprotein" type="number" placeholder="proteins" [class.invalid]="!newIngredientForm.controls.iprotein.valid && blur">
+          </ion-input> 
+         
+    
+       </ion-item> 
+
+       <!--ingredient carbohydrates input-->
+      
+      <ion-item> 
+      
+          <ion-input formControlName="icarbohydrate" type="number" placeholder=" carbohydrates" [class.invalid]="!newIngredientForm.controls.icarbohydrate.valid && blur">
+          </ion-input> 
+         
+    
+       </ion-item> 
+
+       <!--ingredient fats input-->
+      
+      <ion-item> 
+      
+          <ion-input formControlName="ifat" type="number" placeholder=" fats" [class.invalid]="!newIngredientForm.controls.ifat.valid && blur">
+          </ion-input> 
+         
+    
+       </ion-item> 
+<!--ingredient saturatedFat input-->
+      
+<ion-item> 
+      
+    <ion-input formControlName="isaturated" type="number" placeholder="from that saturated" [class.invalid]="!newIngredientForm.controls.isaturated.valid && blur">
+    </ion-input> 
+   
+
+ </ion-item> 
+
+ <!--ingredient sugar input-->
+      
+<ion-item> 
+      
+    <ion-input formControlName="isugar" type="number" placeholder="sugars" [class.invalid]="!newIngredientForm.controls.isugar.valid && blur">
+    </ion-input> 
+   
+
+ </ion-item> 
+
+  <!--ingredient salt input-->
+      
+<ion-item> 
+      
+    <ion-input formControlName="isalt" type="number" placeholder="salt" [class.invalid]="!newIngredientForm.controls.isalt.valid && blur">
+    </ion-input> 
+   
+
+ </ion-item> 
+    
+    
+    
+ <!--ingredient alergen input-->
+      
+<ion-item> 
+      
+    <ion-input formControlName="ialergen" type="text" placeholder="alergens" [class.invalid]="!newIngredientForm.controls.ialergen.valid && blur">
+    </ion-input> 
+   
+
+ </ion-item> 
+
+  <!--ingredient alergen input-->
+      
+<ion-item> 
+      
+    <ion-input formControlName="iunit" type="text" placeholder="measured in" [class.invalid]="!newIngredientForm.controls.iunit.valid && blur">
+    </ion-input> 
+   
+
+ </ion-item> 
+    
+
+          
+          
+        
+<!--submit  button-->
+
+</form>
+<!--end of create dish form-->
+<button  ion-button block (click)="addIngredient()" >Add Ingredient</button>  
+
+</ion-content>

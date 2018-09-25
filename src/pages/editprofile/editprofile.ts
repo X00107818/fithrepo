@@ -6,6 +6,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase, AngularFireObject, AngularFireList } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import firebase from 'firebase/app';
+import {HomePage} from '../home/home';
 
 /**
  * Generated class for the EditprofilePage page.
@@ -22,7 +23,7 @@ import firebase from 'firebase/app';
 })
 export class EditprofilePage {
   
-  
+
    userId:string ;
 
    
@@ -40,6 +41,10 @@ export class EditprofilePage {
       });
          
     
+    }
+
+    goHome() {
+      this.navCtrl.setRoot(HomePage);
     }
 
     showOptions(uname) {
@@ -105,6 +110,10 @@ export class EditprofilePage {
    
       this.user = userSnapshot.val();
      console.log(this.user);
+
+    
+     
+
       
     }); 
   

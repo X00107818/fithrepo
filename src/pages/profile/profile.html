@@ -9,36 +9,43 @@
 
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>profile</ion-title>
-  </ion-navbar>
+  <ion-item (click)="goHome()"><ion-icon name="close" item-end></ion-icon></ion-item>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content padding class="form-pages">
+   <img src="./assets/imgs/profile.jpg " alt="" class="img"/>
+   
 
-    <form [formGroup]="newProfileForm" (submit)="createProfile()" novalidate>
+    <form [formGroup]="newProfileForm" (submit)="createProfile()" class="form-img"  novalidate>
         <ion-item> 
-        <ion-label stacked>Your First Name</ion-label> 
-        <ion-input formControlName="fname" type="text" placeholder="Please type your first name" [class.invalid]="!newProfileForm.controls.fname.valid && blur">
+        
+        <ion-input formControlName="fname" type="text" placeholder="first name" [class.invalid]="!newProfileForm.controls.fname.valid && blur">
         </ion-input> 
         </ion-item> 
-
-       <ion-item> 
-       <ion-label stacked>Your Last Name</ion-label> 
-       <ion-input formControlName="lname" type="text" placeholder="Please type your last name" [class.invalid]="!newProfileForm.controls.lname.valid && blur">
-       </ion-input> 
-       </ion-item> 
+        <ion-item class="error-message"  *ngIf="!newProfileForm.controls.fname.valid && newProfileForm.controls.fname.dirty">
+        <p>your first name should be at least two characters long</p> 
+       </ion-item>
 
         <ion-item> 
-        <ion-label stacked>Username</ion-label> 
-        <ion-input formControlName="uname" type="text" placeholder="Choose your username" [class.invalid]="!newProfileForm.controls.uname.valid && blur">
+         <ion-input formControlName="lname" type="text" placeholder="last name" [class.invalid]="!newProfileForm.controls.lname.valid && blur">
         </ion-input> 
         </ion-item> 
+        <ion-item class="error-message"  *ngIf="!newProfileForm.controls.lname.valid && newProfileForm.controls.lname.dirty">
+            <p>your last name should be at least two characters long</p> 
+        </ion-item>
+
+         <ion-item> 
+        <ion-input formControlName="uname" type="text" placeholder="username" [class.invalid]="!newProfileForm.controls.uname.valid && blur">
+        </ion-input> 
+        </ion-item> 
+        <ion-item class="error-message"  *ngIf="!newProfileForm.controls.uname.valid && newProfileForm.controls.uname.dirty">
+            <p>user name should be at least four characters long</p> 
+        </ion-item>
 
         
-        <button ion-button block type="submit"> Create </button>
+        <button ion-button block type="submit"  [disabled]="!newProfileForm.valid"> Create profile </button>
 
      </form>   
 

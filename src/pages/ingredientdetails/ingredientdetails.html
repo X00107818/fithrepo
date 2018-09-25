@@ -4,34 +4,20 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<ion-header>
 
-  <ion-navbar>
-    <ion-title>ingredientdetails</ion-title>
-  </ion-navbar>
-  <ion-buttons >
-    
-  <button ion-button  icon-only (click)="addIngredient()"> <ion-icon name="add"></ion-icon> Add more ingredients</button> 
-             
-  </ion-buttons>
-
-</ion-header>
 
 
 <ion-content padding>
-    <form [formGroup]="calculate" (ngSubmit)="saveForm(servingsize)">
-        <h6>Please type how many {{ingredientInfo.measureUnit}} of {{ingredientInfo.name}} you wish to add </h6> 
+    <form [formGroup]="calculate" (ngSubmit)="submitIngredient()" class="form-pages">
+        <h6>Please type how many <span class="emphasize" >{{ingredientInfo.measureUnit}} </span>of <span class="emphasize" >{{ingredientInfo.name}} </span>you wish to add </h6> 
         <ion-item>
         <ion-input type="number" formControlName="servingsize" placeholder=""></ion-input>
         </ion-item> 
+        <ion-item class="error-message"  *ngIf="!calculate.controls.servingsize.valid && calculate.controls.servingsize.dirty"> <h4>* field is required<br/> no negative numbers, max value: 200.</h4> </ion-item>
  
-        <button clear ion-button type="submit" [disabled]="!calculate.valid">Submit</button>
-       
+        <button block ion-button type="submit" [disabled]="!calculate.valid"> submit </button>
+        <button block ion-button   (click)="backToDish()" color="light"> cancel </button> 
       </form>
   
- <ion-buttons end>
-      
-               <button clear ion-button icon-only (click)="addIngredient()">Cancel </button>
-  </ion-buttons>
 
 </ion-content>
